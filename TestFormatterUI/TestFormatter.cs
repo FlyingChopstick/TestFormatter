@@ -21,6 +21,23 @@ namespace TestFormatterUI
             InitializeComponent();
         }
 
+        private bool isRequiredFilled()
+        {
+            if (
+                (tb_header.Text != "") &&
+                (tb_question.Text != "") &&
+                (tb_ans1.Text != "") &&
+                (tb_ans2.Text != "")
+                )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private void Generate()
         {
             string header = $"I: {tb_header.Text}; mt=0,1";
@@ -79,14 +96,19 @@ namespace TestFormatterUI
         {
             if (tb_topic.Text != "")
             {
-                Generate();
+                if (isRequiredFilled())
+                {
+                    Generate();
 
-                tb_header.Clear();
-                tb_question.Clear();
-                tb_ans1.Clear();
-                tb_ans2.Clear();
-                tb_ans3.Clear();
-                tb_ans4.Clear();
+                    tb_header.Clear();
+                    tb_question.Clear();
+                    tb_ans1.Clear();
+                    tb_ans2.Clear();
+                    tb_ans3.Clear();
+                    tb_ans4.Clear();
+                }
+                else
+                    MessageBox.Show("Fill the required fields", "Fields", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
