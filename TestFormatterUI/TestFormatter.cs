@@ -15,6 +15,10 @@ namespace TestFormatterUI
     {
         private const string folder = @".\Topics";
 
+        //private int qNum = 1;
+        private Dictionary<string, int> QuestionTracking = new Dictionary<string, int>();
+        private string lastTopic;
+
         public TestFormatter()
         {
             Directory.CreateDirectory(folder);
@@ -40,6 +44,14 @@ namespace TestFormatterUI
 
         private void Generate()
         {
+            //store last topic
+            lastTopic = tb_topic.Text;
+            if (!QuestionTracking.ContainsKey(lastTopic))
+            {
+                QuestionTracking[lastTopic] = 1;
+            }
+            l_qNumber.Text = $"Question #{QuestionTracking[lastTopic]}";
+
             string header = $"I: {tb_header.Text}; mt=0,1";
             string question = $"S: {tb_question.Text}";
             string ans1, ans2, ans3, ans4;
@@ -85,11 +97,15 @@ namespace TestFormatterUI
             }
 
             //compile
-            string[] result = { header, question, ans1, ans2, ans3, ans4, "" };
+            string[] result = { $"Вопрос #{QuestionTracking[lastTopic]}", header, question, ans1, ans2, ans3, ans4, "" };
             string fileName = $".\\{folder}\\{tb_topic.Text}.txt";
 
             //write
             File.AppendAllLines(fileName, result);
+
+            //increase question number
+            QuestionTracking[lastTopic]++;
+            l_qNumber.Text = $"Question #{QuestionTracking[lastTopic]}";
         }
 
         private void b_generate_Click(object sender, EventArgs e)
@@ -113,6 +129,21 @@ namespace TestFormatterUI
             else
             {
                 MessageBox.Show("Fill the topic", "Topic", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void tb_topic_TextChanged(object sender, EventArgs e)
+        {
+            if (tb_topic.Text != "")
+            {
+                if (QuestionTracking.ContainsKey(tb_topic.Text))
+                {
+                    l_qNumber.Text = $"Question #{QuestionTracking[tb_topic.Text]}";
+                }
+                else
+                {
+                    l_qNumber.Text = "Question #--";
+                }
             }
         }
     }

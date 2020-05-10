@@ -45,6 +45,7 @@
             this.l_topic = new System.Windows.Forms.Label();
             this.tb_topic = new System.Windows.Forms.TextBox();
             this.l_requiredFields = new System.Windows.Forms.Label();
+            this.l_qNumber = new System.Windows.Forms.Label();
             this.cb_answers.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +59,7 @@
             this.cb_answers.Controls.Add(this.tb_ans4);
             this.cb_answers.Controls.Add(this.tb_ans2);
             this.cb_answers.Controls.Add(this.tb_ans1);
-            this.cb_answers.Location = new System.Drawing.Point(9, 147);
+            this.cb_answers.Location = new System.Drawing.Point(9, 158);
             this.cb_answers.Name = "cb_answers";
             this.cb_answers.Size = new System.Drawing.Size(739, 191);
             this.cb_answers.TabIndex = 0;
@@ -133,14 +134,14 @@
             // 
             // tb_question
             // 
-            this.tb_question.Location = new System.Drawing.Point(12, 121);
+            this.tb_question.Location = new System.Drawing.Point(12, 132);
             this.tb_question.Name = "tb_question";
             this.tb_question.Size = new System.Drawing.Size(730, 20);
             this.tb_question.TabIndex = 8;
             // 
             // tb_header
             // 
-            this.tb_header.Location = new System.Drawing.Point(12, 77);
+            this.tb_header.Location = new System.Drawing.Point(12, 88);
             this.tb_header.Name = "tb_header";
             this.tb_header.Size = new System.Drawing.Size(730, 20);
             this.tb_header.TabIndex = 9;
@@ -148,7 +149,7 @@
             // l_header
             // 
             this.l_header.AutoSize = true;
-            this.l_header.Location = new System.Drawing.Point(9, 61);
+            this.l_header.Location = new System.Drawing.Point(9, 72);
             this.l_header.Name = "l_header";
             this.l_header.Size = new System.Drawing.Size(42, 13);
             this.l_header.TabIndex = 10;
@@ -157,7 +158,7 @@
             // l_question
             // 
             this.l_question.AutoSize = true;
-            this.l_question.Location = new System.Drawing.Point(9, 100);
+            this.l_question.Location = new System.Drawing.Point(9, 111);
             this.l_question.Name = "l_question";
             this.l_question.Size = new System.Drawing.Size(49, 13);
             this.l_question.TabIndex = 11;
@@ -165,7 +166,7 @@
             // 
             // b_generate
             // 
-            this.b_generate.Location = new System.Drawing.Point(9, 344);
+            this.b_generate.Location = new System.Drawing.Point(9, 355);
             this.b_generate.Name = "b_generate";
             this.b_generate.Size = new System.Drawing.Size(75, 23);
             this.b_generate.TabIndex = 12;
@@ -188,21 +189,32 @@
             this.tb_topic.Name = "tb_topic";
             this.tb_topic.Size = new System.Drawing.Size(730, 20);
             this.tb_topic.TabIndex = 14;
+            this.tb_topic.TextChanged += new System.EventHandler(this.tb_topic_TextChanged);
             // 
             // l_requiredFields
             // 
             this.l_requiredFields.AutoSize = true;
-            this.l_requiredFields.Location = new System.Drawing.Point(108, 349);
+            this.l_requiredFields.Location = new System.Drawing.Point(108, 360);
             this.l_requiredFields.Name = "l_requiredFields";
             this.l_requiredFields.Size = new System.Drawing.Size(320, 13);
             this.l_requiredFields.TabIndex = 16;
             this.l_requiredFields.Text = "Required fields are Header, Question and at least two first answers";
             // 
+            // l_qNumber
+            // 
+            this.l_qNumber.AutoSize = true;
+            this.l_qNumber.Location = new System.Drawing.Point(12, 50);
+            this.l_qNumber.Name = "l_qNumber";
+            this.l_qNumber.Size = new System.Drawing.Size(65, 13);
+            this.l_qNumber.TabIndex = 17;
+            this.l_qNumber.Text = "Question #--";
+            // 
             // TestFormatter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(763, 373);
+            this.ClientSize = new System.Drawing.Size(763, 393);
+            this.Controls.Add(this.l_qNumber);
             this.Controls.Add(this.l_requiredFields);
             this.Controls.Add(this.l_topic);
             this.Controls.Add(this.tb_topic);
@@ -240,5 +252,6 @@
         private System.Windows.Forms.Label l_topic;
         private System.Windows.Forms.TextBox tb_topic;
         private System.Windows.Forms.Label l_requiredFields;
+        private System.Windows.Forms.Label l_qNumber;
     }
 }
