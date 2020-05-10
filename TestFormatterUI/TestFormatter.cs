@@ -31,7 +31,9 @@ namespace TestFormatterUI
                 (tb_header.Text != "") &&
                 (tb_question.Text != "") &&
                 (tb_ans1.Text != "") &&
-                (tb_ans2.Text != "")
+                (tb_ans2.Text != "") &&
+                (tb_ans3.Text != "") &&
+                (tb_ans4.Text != "") 
                 )
             {
                 return true;
@@ -124,7 +126,7 @@ namespace TestFormatterUI
                     tb_ans4.Clear();
                 }
                 else
-                    MessageBox.Show("Fill the required fields", "Fields", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Fill all fields", "Fields", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -145,6 +147,11 @@ namespace TestFormatterUI
                     l_qNumber.Text = "Question #--";
                 }
             }
+        }
+
+        private void l_requiredFields_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

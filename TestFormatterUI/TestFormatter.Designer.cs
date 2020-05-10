@@ -44,7 +44,6 @@
             this.b_generate = new System.Windows.Forms.Button();
             this.l_topic = new System.Windows.Forms.Label();
             this.tb_topic = new System.Windows.Forms.TextBox();
-            this.l_requiredFields = new System.Windows.Forms.Label();
             this.l_qNumber = new System.Windows.Forms.Label();
             this.cb_answers.SuspendLayout();
             this.SuspendLayout();
@@ -191,15 +190,6 @@
             this.tb_topic.TabIndex = 14;
             this.tb_topic.TextChanged += new System.EventHandler(this.tb_topic_TextChanged);
             // 
-            // l_requiredFields
-            // 
-            this.l_requiredFields.AutoSize = true;
-            this.l_requiredFields.Location = new System.Drawing.Point(108, 360);
-            this.l_requiredFields.Name = "l_requiredFields";
-            this.l_requiredFields.Size = new System.Drawing.Size(320, 13);
-            this.l_requiredFields.TabIndex = 16;
-            this.l_requiredFields.Text = "Required fields are Header, Question and at least two first answers";
-            // 
             // l_qNumber
             // 
             this.l_qNumber.AutoSize = true;
@@ -215,7 +205,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(763, 393);
             this.Controls.Add(this.l_qNumber);
-            this.Controls.Add(this.l_requiredFields);
             this.Controls.Add(this.l_topic);
             this.Controls.Add(this.tb_topic);
             this.Controls.Add(this.b_generate);
@@ -251,7 +240,6 @@
         private System.Windows.Forms.Button b_generate;
         private System.Windows.Forms.Label l_topic;
         private System.Windows.Forms.TextBox tb_topic;
-        private System.Windows.Forms.Label l_requiredFields;
         private System.Windows.Forms.Label l_qNumber;
     }
 }
