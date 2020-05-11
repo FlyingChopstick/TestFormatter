@@ -46,6 +46,8 @@
             this.l_qNumber = new System.Windows.Forms.Label();
             this.tb_qNumber = new System.Windows.Forms.TextBox();
             this.tb_header = new System.Windows.Forms.TextBox();
+            this.l_exists = new System.Windows.Forms.Label();
+            this.b_open = new System.Windows.Forms.Button();
             this.cb_answers.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,6 +111,7 @@
             this.tb_ans3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_ans3.Location = new System.Drawing.Point(38, 109);
             this.tb_ans3.Name = "tb_ans3";
+            this.tb_ans3.ReadOnly = true;
             this.tb_ans3.Size = new System.Drawing.Size(695, 27);
             this.tb_ans3.TabIndex = 3;
             // 
@@ -117,6 +120,7 @@
             this.tb_ans4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_ans4.Location = new System.Drawing.Point(38, 147);
             this.tb_ans4.Name = "tb_ans4";
+            this.tb_ans4.ReadOnly = true;
             this.tb_ans4.Size = new System.Drawing.Size(695, 27);
             this.tb_ans4.TabIndex = 2;
             // 
@@ -125,6 +129,7 @@
             this.tb_ans2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_ans2.Location = new System.Drawing.Point(38, 70);
             this.tb_ans2.Name = "tb_ans2";
+            this.tb_ans2.ReadOnly = true;
             this.tb_ans2.Size = new System.Drawing.Size(695, 27);
             this.tb_ans2.TabIndex = 1;
             // 
@@ -133,6 +138,7 @@
             this.tb_ans1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_ans1.Location = new System.Drawing.Point(38, 33);
             this.tb_ans1.Name = "tb_ans1";
+            this.tb_ans1.ReadOnly = true;
             this.tb_ans1.Size = new System.Drawing.Size(695, 27);
             this.tb_ans1.TabIndex = 0;
             // 
@@ -141,6 +147,7 @@
             this.tb_question.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_question.Location = new System.Drawing.Point(12, 158);
             this.tb_question.Name = "tb_question";
+            this.tb_question.ReadOnly = true;
             this.tb_question.Size = new System.Drawing.Size(730, 27);
             this.tb_question.TabIndex = 8;
             // 
@@ -177,7 +184,7 @@
             this.tb_topic.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_topic.Location = new System.Drawing.Point(12, 22);
             this.tb_topic.Name = "tb_topic";
-            this.tb_topic.Size = new System.Drawing.Size(730, 27);
+            this.tb_topic.Size = new System.Drawing.Size(523, 27);
             this.tb_topic.TabIndex = 14;
             this.tb_topic.TextChanged += new System.EventHandler(this.tb_topic_TextChanged);
             // 
@@ -213,14 +220,40 @@
             this.tb_header.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tb_header.Location = new System.Drawing.Point(12, 108);
             this.tb_header.Name = "tb_header";
+            this.tb_header.ReadOnly = true;
             this.tb_header.Size = new System.Drawing.Size(730, 27);
             this.tb_header.TabIndex = 9;
+            // 
+            // l_exists
+            // 
+            this.l_exists.AutoSize = true;
+            this.l_exists.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.l_exists.Location = new System.Drawing.Point(541, 24);
+            this.l_exists.Name = "l_exists";
+            this.l_exists.Size = new System.Drawing.Size(106, 20);
+            this.l_exists.TabIndex = 19;
+            this.l_exists.Text = "File exists: No";
+            // 
+            // b_open
+            // 
+            this.b_open.Enabled = false;
+            this.b_open.Location = new System.Drawing.Point(667, 24);
+            this.b_open.Name = "b_open";
+            this.b_open.Size = new System.Drawing.Size(75, 23);
+            this.b_open.TabIndex = 20;
+            this.b_open.Text = "Open file";
+            this.b_open.UseVisualStyleBackColor = true;
+            this.b_open.Visible = false;
+            this.b_open.Click += new System.EventHandler(this.b_open_Click);
             // 
             // TestFormatter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(763, 416);
+            this.Controls.Add(this.b_open);
+            this.Controls.Add(this.l_exists);
             this.Controls.Add(this.tb_qNumber);
             this.Controls.Add(this.l_qNumber);
             this.Controls.Add(this.l_topic);
@@ -233,6 +266,7 @@
             this.Controls.Add(this.cb_answers);
             this.Name = "TestFormatter";
             this.Text = "TestFormatter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TestFormatter_FormClosing);
             this.cb_answers.ResumeLayout(false);
             this.cb_answers.PerformLayout();
             this.ResumeLayout(false);
@@ -260,5 +294,7 @@
         private System.Windows.Forms.Label l_qNumber;
         private System.Windows.Forms.TextBox tb_qNumber;
         private System.Windows.Forms.TextBox tb_header;
+        private System.Windows.Forms.Label l_exists;
+        private System.Windows.Forms.Button b_open;
     }
 }
