@@ -267,6 +267,7 @@
             this.Name = "TestFormatter";
             this.Text = "TestFormatter";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TestFormatter_FormClosing);
+            this.Click += new System.EventHandler(this.TestFormatter_Click);
             this.cb_answers.ResumeLayout(false);
             this.cb_answers.PerformLayout();
             this.ResumeLayout(false);

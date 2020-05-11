@@ -97,12 +97,14 @@ namespace TestFormatterUI
         /// </summary>
         private void Generate()
         {
-            //store last topic
-            lastTopic = tb_topic.Text;
-            if (!QuestionTracking.ContainsKey(lastTopic))
-            {
-                QuestionTracking[lastTopic] = 1;
-            }
+            //store topic
+            string topic = tb_topic.Text;
+
+            //lastTopic = tb_topic.Text;
+            //if (!QuestionTracking.ContainsKey(lastTopic))
+            //{
+            //    QuestionTracking[lastTopic] = 1;
+            //}
             //tb_qNumber.Text = QuestionTracking[lastTopic].ToString();
 
             string header = $"I: {tb_header.Text}; mt=0,1";
@@ -157,8 +159,8 @@ namespace TestFormatterUI
             File.AppendAllLines(fileName, result);
 
             //increase question number
-            QuestionTracking[lastTopic]++;
-            tb_qNumber.Text = QuestionTracking[lastTopic].ToString();
+            QuestionTracking[topic]++;
+            tb_qNumber.Text = QuestionTracking[topic].ToString();
         }
 
         /// <summary>
@@ -215,6 +217,68 @@ namespace TestFormatterUI
             }
         }
 
+        private void FieldLock(bool locked)
+        {
+            tb_qNumber.ReadOnly = locked;
+            tb_header.ReadOnly = locked;
+            tb_question.ReadOnly = locked;
+            tb_ans1.ReadOnly = locked;
+            tb_ans2.ReadOnly = locked;
+            tb_ans3.ReadOnly = locked;
+            tb_ans4.ReadOnly = locked;
+        }
+        private void ClearFields()
+        {
+            tb_header.Text = string.Empty;
+            tb_question.Text = string.Empty;
+            tb_ans1.Text = string.Empty;
+            tb_ans2.Text = string.Empty;
+            tb_ans3.Text = string.Empty;
+            tb_ans4.Text = string.Empty;
+        }
+        private void UpdateStats()
+        {
+            string topic = tb_topic.Text;
+            if (topic.Length != 0)
+            {
+                if (CheckExists())//File.Exists($"{outputFolder}\\{topic}.txt"))//QuestionTracking.ContainsKey(tb_topic.Text))
+                {
+                    l_exists.Text = "File exists: Yes";
+                    b_open.Enabled = true;
+                    b_open.Visible = true;
+
+                    int len = File.ReadAllLines($"{outputFolder}{topic}.txt").Length;
+                    int qCount = len / 7 + 1;
+
+                    tb_qNumber.Text = qCount.ToString();
+                }
+                else
+                {
+                    l_exists.Text = "File exists: No";
+                    tb_qNumber.Text = "1";
+
+                    b_open.Enabled = false;
+                    b_open.Visible = false;
+                }
+
+                FieldLock(false);
+            }
+            else
+            {
+                tb_qNumber.Text = "--";
+
+                FieldLock(true);
+            }
+        }
+        private bool CheckExists()
+        {
+            if (File.Exists($"{outputFolder}{tb_topic.Text}.txt"))
+                return true;
+            else 
+                return false;
+        }
+
+
         /// <summary>
         /// Removes non-existent topics from QuestionTracking
         /// </summary>
@@ -258,56 +322,19 @@ namespace TestFormatterUI
 
         private void tb_topic_TextChanged(object sender, EventArgs e)
         {
-            string topic = tb_topic.Text;
-            if (topic.Length != 0)
-            {
-                if (File.Exists($"{outputFolder}\\{topic}.txt"))//QuestionTracking.ContainsKey(tb_topic.Text))
-                {
-                    l_exists.Text = "File exists: Yes";
-                    b_open.Enabled = true;
-                    b_open.Visible = true;
-
-                    int len = File.ReadAllLines($"{outputFolder}{topic}.txt").Length;
-                    int qCount = len / 7 + 1;
-
-                    tb_qNumber.Text = qCount.ToString();
-                }
-                else
-                {
-                    l_exists.Text = "File exists: No";
-                    tb_qNumber.Text = "1";
-
-                    b_open.Enabled = false;
-                    b_open.Visible = false;
-                }
-
-                tb_qNumber.ReadOnly = false;
-                tb_header.ReadOnly = false;
-                tb_question.ReadOnly = false;
-                tb_ans1.ReadOnly = false;
-                tb_ans2.ReadOnly = false;
-                tb_ans3.ReadOnly = false;
-                tb_ans4.ReadOnly = false;
-            }
-            else
-            {
-                tb_qNumber.Text = "--";
-
-                tb_qNumber.ReadOnly = true;
-                tb_header.ReadOnly = true;
-                tb_question.ReadOnly = true;
-                tb_ans1.ReadOnly = true;
-                tb_ans2.ReadOnly = true;
-                tb_ans3.ReadOnly = true;
-                tb_ans4.ReadOnly = true;
-            }
+            ClearFields();
+            UpdateStats();
         }
 
         private void tb_qNumber_TextChanged(object sender, EventArgs e)
         {
-            if (tb_qNumber.Text != "--")
+            if (tb_topic.Text.Length != 0)
             {
-                QuestionTracking[tb_topic.Text] = Convert.ToInt32(tb_qNumber.Text);
+                if ((tb_qNumber.Text != "--") || (tb_qNumber.Text.Length != 0))
+                {
+                    QuestionTracking[tb_topic.Text] = Convert.ToInt32(tb_qNumber.Text);
+                }
+                UpdateStats();
             }
         }
 
@@ -325,6 +352,11 @@ namespace TestFormatterUI
             string topic = tb_topic.Text;
             string topicFile = $"{outputFolder}{topic}.txt";
             System.Diagnostics.Process.Start(topicFile);
+        }
+
+        private void TestFormatter_Click(object sender, EventArgs e)
+        {
+            UpdateStats();
         }
     }
 }
