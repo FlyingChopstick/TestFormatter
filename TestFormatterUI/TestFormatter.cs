@@ -13,7 +13,7 @@ namespace TestFormatterUI
 {
     public partial class TestFormatter : Form
     {
-        private const string folder = @".\Topics";
+        private const string folder = @".\Topics\Outptut";
 
         //private int qNum = 1;
         private Dictionary<string, int> QuestionTracking = new Dictionary<string, int>();
@@ -52,10 +52,11 @@ namespace TestFormatterUI
             {
                 QuestionTracking[lastTopic] = 1;
             }
-            l_qNumber.Text = $"Question #{QuestionTracking[lastTopic]}";
+            tb_qNumber.Text = QuestionTracking[lastTopic].ToString();
+            tb_qNumber.ReadOnly = false;
 
             string header = $"I: {tb_header.Text}; mt=0,1";
-            string question = $"S: {tb_question.Text}";
+            string question = $"S: {tb_question.Text}:";
             string ans1, ans2, ans3, ans4;
 
             //ans1
@@ -99,7 +100,7 @@ namespace TestFormatterUI
             }
 
             //compile
-            string[] result = { $"Вопрос #{QuestionTracking[lastTopic]}", header, question, ans1, ans2, ans3, ans4, "" };
+            string[] result = { header, question, ans1, ans2, ans3, ans4, "" };
             string fileName = $".\\{folder}\\{tb_topic.Text}.txt";
 
             //write
@@ -107,7 +108,7 @@ namespace TestFormatterUI
 
             //increase question number
             QuestionTracking[lastTopic]++;
-            l_qNumber.Text = $"Question #{QuestionTracking[lastTopic]}";
+            tb_qNumber.Text = QuestionTracking[lastTopic].ToString();
         }
 
         private void b_generate_Click(object sender, EventArgs e)
@@ -118,7 +119,7 @@ namespace TestFormatterUI
                 {
                     Generate();
 
-                    tb_header.Clear();
+                    //tb_header.Clear();
                     tb_question.Clear();
                     tb_ans1.Clear();
                     tb_ans2.Clear();
@@ -140,18 +141,21 @@ namespace TestFormatterUI
             {
                 if (QuestionTracking.ContainsKey(tb_topic.Text))
                 {
-                    l_qNumber.Text = $"Question #{QuestionTracking[tb_topic.Text]}";
+                    //l_qNumber.Text = $"Question #{QuestionTracking[tb_topic.Text]}";
+                    tb_qNumber.Text = QuestionTracking[lastTopic].ToString();
                 }
                 else
                 {
-                    l_qNumber.Text = "Question #--";
+                    //l_qNumber.Text = "Question #--";
+                    tb_qNumber.ReadOnly = false;
+                    tb_qNumber.Text = "";
                 }
             }
         }
 
-        private void l_requiredFields_Click(object sender, EventArgs e)
+        private void tb_qNumber_TextChanged(object sender, EventArgs e)
         {
-
+            QuestionTracking[tb_topic.Text] = Convert.ToInt32(tb_qNumber.Text);
         }
     }
 }
