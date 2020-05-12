@@ -88,7 +88,10 @@ namespace TestFormatterUI
             //write
             File.AppendAllLines(activeFile, result);
         }
-
+        /// <summary>
+        /// Checks that input fields are filled
+        /// </summary>
+        /// <returns></returns>
         private bool IsRequiredFilled()
         {
             if (
@@ -107,6 +110,10 @@ namespace TestFormatterUI
                 return true;
             }
         }
+        /// <summary>
+        /// Locks or unlocks the input fields
+        /// </summary>
+        /// <param name="unlocked">Should the fields be unlocked</param>
         private void FieldLock(bool unlocked)
         {
             tb_header.Enabled = unlocked;
@@ -127,6 +134,9 @@ namespace TestFormatterUI
 
             b_generate.Enabled = unlocked;
         }
+        /// <summary>
+        /// Clears input fields
+        /// </summary>
         private void ClearFields()
         {
             tb_header.Text = string.Empty;
@@ -136,6 +146,9 @@ namespace TestFormatterUI
             tb_ans3.Text = string.Empty;
             tb_ans4.Text = string.Empty;
         }
+        /// <summary>
+        /// Updates various UI elements
+        /// </summary>
         private void UpdateStats()
         {
             string topic = tb_topic.Text;
@@ -143,7 +156,6 @@ namespace TestFormatterUI
             {
                 activeFile = $"{outputFolder}{outputPrefix}{tb_topic.Text}.txt";
                 ScanFile(topic);
-                ShowQuestCount();
                 FieldLock(true);
             }
             else
@@ -157,48 +169,44 @@ namespace TestFormatterUI
                 FieldLock(false);
             }        
         }
+        /// <summary>
+        /// Determines the existence and amount of question in the file
+        /// </summary>
+        /// <param name="topic">Query topic</param>
+        /// <returns><see langword="true"/>if file exists, <see langword="false"/>if not</returns>
         private bool ScanFile(string topic)
         {
             if (File.Exists(activeFile))
             {
+                //unlock the "open file" button
                 l_exists.Text = "File exists: Yes";
                 b_open.Enabled = true;
                 b_open.Visible = true;
 
+                //count question in file, assuming each is 7 lines long
                 int len = File.ReadAllLines(activeFile).Length;
                 int qCount = len / 7 + 1;
                 QuestionTracking[topic] = qCount;
+
+                l_qNumber.Text = $"Question #{QuestionTracking[topic].ToString()}";
                 return true;
             }
             else
             {
+                //lock the "open file" button
                 l_exists.Text = "File exists: No";
                 b_open.Enabled = false;
                 b_open.Visible = false;
 
                 l_qNumber.Text = "Question #1";
-
                 return false;
-            }
-        }
-        private void ShowQuestCount()
-        {
-            string topic = tb_topic.Text;
-            //ScanFile(topic);
-            if (ScanFile(topic))//QuestionTracking.Keys.Contains(topic))
-            {
-                l_qNumber.Text = $"Question #{QuestionTracking[topic].ToString()}";
-            }
-            else
-            {
-                l_qNumber.Text = "Question #1";
             }
         }
 
         //form controls
         private void b_generate_Click(object sender, EventArgs e)
         {
-            if (tb_topic.Text != "")
+            if (tb_topic.Text.Length != 0)
             {
                 if (IsRequiredFilled())
                 {
@@ -232,7 +240,7 @@ namespace TestFormatterUI
             {
                 System.Diagnostics.Process.Start(activeFile);
             }
-            catch (Exception)
+            catch (FileNotFoundException)
             {
                 UpdateStats();
 

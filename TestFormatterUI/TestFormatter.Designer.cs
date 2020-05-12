@@ -30,19 +30,19 @@
         {
             this.cb_question = new System.Windows.Forms.GroupBox();
             this.rb_ans4 = new System.Windows.Forms.RadioButton();
+            this.b_generate = new System.Windows.Forms.Button();
             this.rb_ans3 = new System.Windows.Forms.RadioButton();
             this.rb_ans2 = new System.Windows.Forms.RadioButton();
+            this.l_qNumber = new System.Windows.Forms.Label();
             this.rb_ans1 = new System.Windows.Forms.RadioButton();
             this.tb_ans3 = new System.Windows.Forms.TextBox();
             this.tb_ans4 = new System.Windows.Forms.TextBox();
+            this.tb_question = new System.Windows.Forms.TextBox();
             this.tb_ans2 = new System.Windows.Forms.TextBox();
             this.tb_ans1 = new System.Windows.Forms.TextBox();
-            this.tb_question = new System.Windows.Forms.TextBox();
             this.l_header = new System.Windows.Forms.Label();
-            this.b_generate = new System.Windows.Forms.Button();
             this.tb_topic = new System.Windows.Forms.TextBox();
             this.l_topic = new System.Windows.Forms.Label();
-            this.l_qNumber = new System.Windows.Forms.Label();
             this.tb_header = new System.Windows.Forms.TextBox();
             this.l_exists = new System.Windows.Forms.Label();
             this.b_open = new System.Windows.Forms.Button();
@@ -80,6 +80,18 @@
             this.rb_ans4.TabIndex = 7;
             this.rb_ans4.UseVisualStyleBackColor = true;
             // 
+            // b_generate
+            // 
+            this.b_generate.Enabled = false;
+            this.b_generate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.b_generate.Location = new System.Drawing.Point(7, 212);
+            this.b_generate.Name = "b_generate";
+            this.b_generate.Size = new System.Drawing.Size(83, 29);
+            this.b_generate.TabIndex = 5;
+            this.b_generate.Text = "Generate";
+            this.b_generate.UseVisualStyleBackColor = true;
+            this.b_generate.Click += new System.EventHandler(this.b_generate_Click);
+            // 
             // rb_ans3
             // 
             this.rb_ans3.AutoSize = true;
@@ -99,6 +111,15 @@
             this.rb_ans2.Size = new System.Drawing.Size(14, 13);
             this.rb_ans2.TabIndex = 5;
             this.rb_ans2.UseVisualStyleBackColor = true;
+            // 
+            // l_qNumber
+            // 
+            this.l_qNumber.AutoSize = true;
+            this.l_qNumber.Location = new System.Drawing.Point(4, 16);
+            this.l_qNumber.Name = "l_qNumber";
+            this.l_qNumber.Size = new System.Drawing.Size(65, 13);
+            this.l_qNumber.TabIndex = 17;
+            this.l_qNumber.Text = "Question #--";
             // 
             // rb_ans1
             // 
@@ -128,6 +149,15 @@
             this.tb_ans4.Size = new System.Drawing.Size(703, 27);
             this.tb_ans4.TabIndex = 4;
             // 
+            // tb_question
+            // 
+            this.tb_question.Enabled = false;
+            this.tb_question.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tb_question.Location = new System.Drawing.Point(6, 32);
+            this.tb_question.Name = "tb_question";
+            this.tb_question.Size = new System.Drawing.Size(724, 27);
+            this.tb_question.TabIndex = 0;
+            // 
             // tb_ans2
             // 
             this.tb_ans2.Enabled = false;
@@ -146,15 +176,6 @@
             this.tb_ans1.Size = new System.Drawing.Size(703, 27);
             this.tb_ans1.TabIndex = 1;
             // 
-            // tb_question
-            // 
-            this.tb_question.Enabled = false;
-            this.tb_question.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tb_question.Location = new System.Drawing.Point(6, 32);
-            this.tb_question.Name = "tb_question";
-            this.tb_question.Size = new System.Drawing.Size(724, 27);
-            this.tb_question.TabIndex = 0;
-            // 
             // l_header
             // 
             this.l_header.AutoSize = true;
@@ -163,18 +184,6 @@
             this.l_header.Size = new System.Drawing.Size(42, 13);
             this.l_header.TabIndex = 10;
             this.l_header.Text = "Header";
-            // 
-            // b_generate
-            // 
-            this.b_generate.Enabled = false;
-            this.b_generate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.b_generate.Location = new System.Drawing.Point(7, 212);
-            this.b_generate.Name = "b_generate";
-            this.b_generate.Size = new System.Drawing.Size(83, 29);
-            this.b_generate.TabIndex = 5;
-            this.b_generate.Text = "Generate";
-            this.b_generate.UseVisualStyleBackColor = true;
-            this.b_generate.Click += new System.EventHandler(this.b_generate_Click);
             // 
             // tb_topic
             // 
@@ -193,15 +202,6 @@
             this.l_topic.Size = new System.Drawing.Size(63, 13);
             this.l_topic.TabIndex = 15;
             this.l_topic.Text = "Topic name";
-            // 
-            // l_qNumber
-            // 
-            this.l_qNumber.AutoSize = true;
-            this.l_qNumber.Location = new System.Drawing.Point(4, 16);
-            this.l_qNumber.Name = "l_qNumber";
-            this.l_qNumber.Size = new System.Drawing.Size(59, 13);
-            this.l_qNumber.TabIndex = 17;
-            this.l_qNumber.Text = "Question #";
             // 
             // tb_header
             // 
