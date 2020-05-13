@@ -29,10 +29,15 @@
         private void InitializeComponent()
         {
             this.cb_question = new System.Windows.Forms.GroupBox();
+            this.l_statistics = new System.Windows.Forms.Label();
+            this.l_qc4 = new System.Windows.Forms.Label();
             this.rb_ans4 = new System.Windows.Forms.RadioButton();
             this.b_generate = new System.Windows.Forms.Button();
+            this.l_qc3 = new System.Windows.Forms.Label();
+            this.l_qc2 = new System.Windows.Forms.Label();
             this.rb_ans3 = new System.Windows.Forms.RadioButton();
             this.rb_ans2 = new System.Windows.Forms.RadioButton();
+            this.l_qc1 = new System.Windows.Forms.Label();
             this.rb_ans1 = new System.Windows.Forms.RadioButton();
             this.tb_ans3 = new System.Windows.Forms.TextBox();
             this.tb_ans4 = new System.Windows.Forms.TextBox();
@@ -52,10 +57,15 @@
             // 
             // cb_question
             // 
+            this.cb_question.Controls.Add(this.l_statistics);
+            this.cb_question.Controls.Add(this.l_qc4);
             this.cb_question.Controls.Add(this.rb_ans4);
             this.cb_question.Controls.Add(this.b_generate);
+            this.cb_question.Controls.Add(this.l_qc3);
+            this.cb_question.Controls.Add(this.l_qc2);
             this.cb_question.Controls.Add(this.rb_ans3);
             this.cb_question.Controls.Add(this.rb_ans2);
+            this.cb_question.Controls.Add(this.l_qc1);
             this.cb_question.Controls.Add(this.rb_ans1);
             this.cb_question.Controls.Add(this.tb_ans3);
             this.cb_question.Controls.Add(this.tb_ans4);
@@ -64,19 +74,39 @@
             this.cb_question.Controls.Add(this.tb_ans1);
             this.cb_question.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.cb_question.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cb_question.Location = new System.Drawing.Point(0, 128);
+            this.cb_question.Location = new System.Drawing.Point(0, 125);
             this.cb_question.Name = "cb_question";
-            this.cb_question.Size = new System.Drawing.Size(759, 262);
+            this.cb_question.Size = new System.Drawing.Size(760, 262);
             this.cb_question.TabIndex = 0;
             this.cb_question.TabStop = false;
             this.cb_question.Text = "Question #--";
             this.cb_question.Visible = false;
             // 
+            // l_statistics
+            // 
+            this.l_statistics.AutoSize = true;
+            this.l_statistics.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.l_statistics.Location = new System.Drawing.Point(140, 224);
+            this.l_statistics.Name = "l_statistics";
+            this.l_statistics.Size = new System.Drawing.Size(133, 20);
+            this.l_statistics.TabIndex = 21;
+            this.l_statistics.Text = "Since last launch:";
+            // 
+            // l_qc4
+            // 
+            this.l_qc4.AutoSize = true;
+            this.l_qc4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.l_qc4.Location = new System.Drawing.Point(478, 224);
+            this.l_qc4.Name = "l_qc4";
+            this.l_qc4.Size = new System.Drawing.Size(44, 20);
+            this.l_qc4.TabIndex = 24;
+            this.l_qc4.Text = "#4: 0";
+            // 
             // rb_ans4
             // 
             this.rb_ans4.AutoSize = true;
             this.rb_ans4.Enabled = false;
-            this.rb_ans4.Location = new System.Drawing.Point(7, 182);
+            this.rb_ans4.Location = new System.Drawing.Point(6, 182);
             this.rb_ans4.Name = "rb_ans4";
             this.rb_ans4.Size = new System.Drawing.Size(14, 13);
             this.rb_ans4.TabIndex = 7;
@@ -94,11 +124,31 @@
             this.b_generate.UseVisualStyleBackColor = true;
             this.b_generate.Click += new System.EventHandler(this.b_generate_Click);
             // 
+            // l_qc3
+            // 
+            this.l_qc3.AutoSize = true;
+            this.l_qc3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.l_qc3.Location = new System.Drawing.Point(406, 224);
+            this.l_qc3.Name = "l_qc3";
+            this.l_qc3.Size = new System.Drawing.Size(44, 20);
+            this.l_qc3.TabIndex = 23;
+            this.l_qc3.Text = "#3: 0";
+            // 
+            // l_qc2
+            // 
+            this.l_qc2.AutoSize = true;
+            this.l_qc2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.l_qc2.Location = new System.Drawing.Point(342, 224);
+            this.l_qc2.Name = "l_qc2";
+            this.l_qc2.Size = new System.Drawing.Size(44, 20);
+            this.l_qc2.TabIndex = 22;
+            this.l_qc2.Text = "#2: 0";
+            // 
             // rb_ans3
             // 
             this.rb_ans3.AutoSize = true;
             this.rb_ans3.Enabled = false;
-            this.rb_ans3.Location = new System.Drawing.Point(7, 144);
+            this.rb_ans3.Location = new System.Drawing.Point(6, 144);
             this.rb_ans3.Name = "rb_ans3";
             this.rb_ans3.Size = new System.Drawing.Size(14, 13);
             this.rb_ans3.TabIndex = 6;
@@ -108,38 +158,50 @@
             // 
             this.rb_ans2.AutoSize = true;
             this.rb_ans2.Enabled = false;
-            this.rb_ans2.Location = new System.Drawing.Point(7, 105);
+            this.rb_ans2.Location = new System.Drawing.Point(6, 105);
             this.rb_ans2.Name = "rb_ans2";
             this.rb_ans2.Size = new System.Drawing.Size(14, 13);
             this.rb_ans2.TabIndex = 5;
             this.rb_ans2.UseVisualStyleBackColor = true;
             // 
+            // l_qc1
+            // 
+            this.l_qc1.AutoSize = true;
+            this.l_qc1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.l_qc1.Location = new System.Drawing.Point(279, 224);
+            this.l_qc1.Name = "l_qc1";
+            this.l_qc1.Size = new System.Drawing.Size(44, 20);
+            this.l_qc1.TabIndex = 21;
+            this.l_qc1.Text = "#1: 0";
+            // 
             // rb_ans1
             // 
             this.rb_ans1.AutoSize = true;
+            this.rb_ans1.Checked = true;
             this.rb_ans1.Enabled = false;
-            this.rb_ans1.Location = new System.Drawing.Point(7, 68);
+            this.rb_ans1.Location = new System.Drawing.Point(6, 68);
             this.rb_ans1.Name = "rb_ans1";
             this.rb_ans1.Size = new System.Drawing.Size(14, 13);
             this.rb_ans1.TabIndex = 4;
+            this.rb_ans1.TabStop = true;
             this.rb_ans1.UseVisualStyleBackColor = true;
             // 
             // tb_ans3
             // 
             this.tb_ans3.Enabled = false;
             this.tb_ans3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tb_ans3.Location = new System.Drawing.Point(27, 138);
+            this.tb_ans3.Location = new System.Drawing.Point(26, 138);
             this.tb_ans3.Name = "tb_ans3";
-            this.tb_ans3.Size = new System.Drawing.Size(722, 27);
+            this.tb_ans3.Size = new System.Drawing.Size(723, 27);
             this.tb_ans3.TabIndex = 3;
             // 
             // tb_ans4
             // 
             this.tb_ans4.Enabled = false;
             this.tb_ans4.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tb_ans4.Location = new System.Drawing.Point(27, 176);
+            this.tb_ans4.Location = new System.Drawing.Point(26, 176);
             this.tb_ans4.Name = "tb_ans4";
-            this.tb_ans4.Size = new System.Drawing.Size(722, 27);
+            this.tb_ans4.Size = new System.Drawing.Size(723, 27);
             this.tb_ans4.TabIndex = 4;
             // 
             // tb_question
@@ -155,18 +217,18 @@
             // 
             this.tb_ans2.Enabled = false;
             this.tb_ans2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tb_ans2.Location = new System.Drawing.Point(27, 99);
+            this.tb_ans2.Location = new System.Drawing.Point(26, 99);
             this.tb_ans2.Name = "tb_ans2";
-            this.tb_ans2.Size = new System.Drawing.Size(722, 27);
+            this.tb_ans2.Size = new System.Drawing.Size(723, 27);
             this.tb_ans2.TabIndex = 2;
             // 
             // tb_ans1
             // 
             this.tb_ans1.Enabled = false;
             this.tb_ans1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tb_ans1.Location = new System.Drawing.Point(27, 62);
+            this.tb_ans1.Location = new System.Drawing.Point(26, 62);
             this.tb_ans1.Name = "tb_ans1";
-            this.tb_ans1.Size = new System.Drawing.Size(722, 27);
+            this.tb_ans1.Size = new System.Drawing.Size(723, 27);
             this.tb_ans1.TabIndex = 1;
             // 
             // l_subtopic
@@ -243,7 +305,7 @@
             this.gb_header.Dock = System.Windows.Forms.DockStyle.Top;
             this.gb_header.Location = new System.Drawing.Point(0, 0);
             this.gb_header.Name = "gb_header";
-            this.gb_header.Size = new System.Drawing.Size(759, 122);
+            this.gb_header.Size = new System.Drawing.Size(760, 122);
             this.gb_header.TabIndex = 21;
             this.gb_header.TabStop = false;
             // 
@@ -252,7 +314,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(759, 390);
+            this.ClientSize = new System.Drawing.Size(760, 387);
             this.Controls.Add(this.gb_header);
             this.Controls.Add(this.cb_question);
             this.Name = "TestFormatter";
@@ -286,5 +348,10 @@
         private System.Windows.Forms.Label l_exists;
         private System.Windows.Forms.Button b_open;
         private System.Windows.Forms.GroupBox gb_header;
+        private System.Windows.Forms.Label l_qc1;
+        private System.Windows.Forms.Label l_qc4;
+        private System.Windows.Forms.Label l_qc3;
+        private System.Windows.Forms.Label l_qc2;
+        private System.Windows.Forms.Label l_statistics;
     }
 }

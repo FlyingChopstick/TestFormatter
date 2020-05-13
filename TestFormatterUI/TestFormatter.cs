@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace TestFormatterUI
@@ -26,6 +27,10 @@ namespace TestFormatterUI
         /// </summary>
         private Dictionary<string, int> QuestionTracking = new Dictionary<string, int>();
 
+        private int[] statistics = { 0, 0, 0, 0, 0 };
+
+        private Dictionary<string, int[]> TopicStats = new Dictionary<string, int[]>();
+
         public TestFormatter()
         {
                 Directory.CreateDirectory(outputFolder);
@@ -38,55 +43,107 @@ namespace TestFormatterUI
         private void Generate()
         {
             //formatting
-            
-            string header = $"I: {tb_subtopic.Text}; mt=0,1";
+            string topic = tb_topic.Text;
+            string subtopic = $"I: {tb_subtopic.Text}; mt=0,1";
             string question = $"S: {tb_question.Text}:";
             string ans1, ans2, ans3, ans4;
 
             if (rb_ans1.Checked)
             {
                 //ans1 correct
+                statistics[1]++;
                 ans1 = $"+: {tb_ans1.Text}";
                 ans2 = $"-: {tb_ans2.Text}";
                 ans3 = $"-: {tb_ans3.Text}";
                 ans4 = $"-: {tb_ans4.Text}";
+
+                //staticstics
+                if (TopicStats.ContainsKey(topic))
+                {
+                    TopicStats[topic][0]++;
+                    TopicStats[topic][1]++;
+                }
+                else
+                {
+                    TopicStats[topic] = new int[] { 1, 1, 0, 0, 0 };
+                }
             }
             else
             {
                 if (rb_ans2.Checked)
                 {
                     //ans2 correct
+                    statistics[2]++;
                     ans1 = $"-: {tb_ans1.Text}";
                     ans2 = $"+: {tb_ans2.Text}";
                     ans3 = $"-: {tb_ans3.Text}";
                     ans4 = $"-: {tb_ans4.Text}";
+
+                    //staticstics
+                    if (TopicStats.ContainsKey(topic))
+                    {
+                        TopicStats[topic][0]++;
+                        TopicStats[topic][2]++;
+                    }
+                    else
+                    {
+                        TopicStats[topic] = new int[] { 1, 0, 1, 0, 0 };
+                    }
                 }
                 else
                 {
                     if (rb_ans3.Checked)
                     {
                         //ans3 correct
+                        statistics[3]++;
                         ans1 = $"-: {tb_ans1.Text}";
                         ans2 = $"-: {tb_ans2.Text}";
                         ans3 = $"+: {tb_ans3.Text}";
                         ans4 = $"-: {tb_ans4.Text}";
+
+                        //staticstics
+                        if (TopicStats.ContainsKey(topic))
+                        {
+                            TopicStats[topic][0]++;
+                            TopicStats[topic][3]++;
+                        }
+                        else
+                        {
+                            TopicStats[topic] = new int[] { 1, 0, 0, 1, 0 };
+                        }
                     }
                     else
                     {
                         //ans4 correct
+                        statistics[4]++;
                         ans1 = $"-: {tb_ans1.Text}";
                         ans2 = $"-: {tb_ans2.Text}";
                         ans3 = $"-: {tb_ans3.Text}";
                         ans4 = $"+: {tb_ans4.Text}";
+
+                        //staticstics
+                        if (TopicStats.ContainsKey(topic))
+                        {
+                            TopicStats[topic][0]++;
+                            TopicStats[topic][4]++;
+                        }
+                        else
+                        {
+                            TopicStats[topic] = new int[] { 1, 0, 0, 0, 1 };
+                        }
                     }
                 }
             }
 
             //compile
-            string[] result = { header, question, ans1, ans2, ans3, ans4, "" }; 
+            string[] result = { subtopic, question, ans1, ans2, ans3, ans4, "" }; 
 
             //write
             File.AppendAllLines(activeFile, result);
+
+            //gb_header.Text = TopicStats[topic][1].ToString();
+
+            statistics[0]++;
         }
         /// <summary>
         /// Checks that input fields are filled
@@ -114,7 +171,7 @@ namespace TestFormatterUI
         /// Locks or unlocks the input fields
         /// </summary>
         /// <param name="unlocked">Should the fields be unlocked</param>
-        private void FieldLock(bool unlocked)
+        private void FieldUnlock(bool unlocked)
         {
             l_subtopic.Visible = unlocked;
             tb_subtopic.Enabled = unlocked;
@@ -125,7 +182,7 @@ namespace TestFormatterUI
 
             tb_ans1.Enabled = unlocked;
             rb_ans1.Enabled = unlocked;
-            rb_ans1.Checked = unlocked;
+            //rb_ans1.Checked = unlocked;
 
             tb_ans2.Enabled = unlocked;
             rb_ans2.Enabled = unlocked;
@@ -143,6 +200,8 @@ namespace TestFormatterUI
         /// </summary>
         private void ClearFields()
         {
+            //statistics = { 0, 0, 0, 0, 0 };
+
             tb_subtopic.Text = string.Empty;
             tb_question.Text = string.Empty;
             tb_ans1.Text = string.Empty;
@@ -160,7 +219,23 @@ namespace TestFormatterUI
             {
                 activeFile = $"{outputFolder}{outputPrefix}{tb_topic.Text}.txt";
                 ScanFile(topic);
-                FieldLock(true);
+                FieldUnlock(true);
+
+                if (TopicStats.ContainsKey(topic))
+                {
+                    gb_header.Text = "!";
+                    l_qc1.Text = $"#1: {TopicStats[topic][1]}";
+                    l_qc2.Text = $"#2: {TopicStats[topic][2]}";
+                    l_qc3.Text = $"#3: {TopicStats[topic][3]}";
+                    l_qc4.Text = $"#4: {TopicStats[topic][4]}";
+                }
+                else
+                {
+                    l_qc1.Text = "#1: 0";
+                    l_qc2.Text = "#2: 0";
+                    l_qc3.Text = "#3: 0";
+                    l_qc4.Text = "#4: 0";
+                }
             }
             else
             {
@@ -170,7 +245,7 @@ namespace TestFormatterUI
 
                 cb_question.Text = "Question #--";
 
-                FieldLock(false);
+                FieldUnlock(false);
             }        
         }
         /// <summary>
@@ -207,6 +282,44 @@ namespace TestFormatterUI
             }
         }
 
+        private void SelectionAssist()
+        {
+            List<int> pool = new List<int>()
+            { 
+                statistics[1] / statistics[0], 
+                statistics[2] / statistics[0], 
+                statistics[3] / statistics[0], 
+                statistics[4] / statistics[0] 
+            };
+
+
+            int suggestion = pool.IndexOf(pool.Min());
+            switch (suggestion)
+            {
+                case 0:
+                    {
+                        rb_ans1.Checked = true;
+                        break;
+                    }
+                case 1:
+                    {
+                        rb_ans2.Checked = true;
+                        break;
+                    }
+                case 2:
+                    {
+                        rb_ans3.Checked = true;
+                        break;
+                    }
+                case 3:
+                    {
+                        rb_ans4.Checked = true;
+                        break;
+                    }
+            }
+            l_qc1.Text = (suggestion+1).ToString();
+        }
+
         //form controls
         private void b_generate_Click(object sender, EventArgs e)
         {
@@ -216,6 +329,7 @@ namespace TestFormatterUI
                 {
                     Generate();
                     UpdateStats();
+                    //SelectionAssist();
 
                     tb_question.Clear();
                     tb_ans1.Clear();
