@@ -11,7 +11,7 @@ namespace TestFormatterUI
         /// <summary>
         /// Topic output folder
         /// </summary>
-        private const string outputFolder = @".\Topics\Output\";
+        private const string outputFolder = @".\Topics\";//@".\Topics\Output\";
         /// <summary>
         /// Topic output prefix
         /// </summary>
@@ -39,7 +39,7 @@ namespace TestFormatterUI
         {
             //formatting
             
-            string header = $"I: {tb_header.Text}; mt=0,1";
+            string header = $"I: {tb_subtopic.Text}; mt=0,1";
             string question = $"S: {tb_question.Text}:";
             string ans1, ans2, ans3, ans4;
 
@@ -95,7 +95,7 @@ namespace TestFormatterUI
         private bool IsRequiredFilled()
         {
             if (
-                String.IsNullOrEmpty(tb_header.Text) ||
+                String.IsNullOrEmpty(tb_subtopic.Text) ||
                 String.IsNullOrEmpty(tb_question.Text) ||
                 String.IsNullOrEmpty(tb_ans1.Text) ||
                 String.IsNullOrEmpty(tb_ans2.Text) ||
@@ -116,7 +116,11 @@ namespace TestFormatterUI
         /// <param name="unlocked">Should the fields be unlocked</param>
         private void FieldLock(bool unlocked)
         {
-            tb_header.Enabled = unlocked;
+            l_subtopic.Visible = unlocked;
+            tb_subtopic.Enabled = unlocked;
+            tb_subtopic.Visible = unlocked;
+
+            cb_question.Visible = unlocked;
             tb_question.Enabled = unlocked;
 
             tb_ans1.Enabled = unlocked;
@@ -139,7 +143,7 @@ namespace TestFormatterUI
         /// </summary>
         private void ClearFields()
         {
-            tb_header.Text = string.Empty;
+            tb_subtopic.Text = string.Empty;
             tb_question.Text = string.Empty;
             tb_ans1.Text = string.Empty;
             tb_ans2.Text = string.Empty;
@@ -164,7 +168,7 @@ namespace TestFormatterUI
                 b_open.Enabled = false;
                 b_open.Visible = false;
 
-                l_qNumber.Text = "Question #--";
+                cb_question.Text = "Question #--";
 
                 FieldLock(false);
             }        
@@ -188,7 +192,7 @@ namespace TestFormatterUI
                 int qCount = len / 7 + 1;
                 QuestionTracking[topic] = qCount;
 
-                l_qNumber.Text = $"Question #{QuestionTracking[topic].ToString()}";
+                cb_question.Text = $"Question #{QuestionTracking[topic].ToString()}";
                 return true;
             }
             else
@@ -198,7 +202,7 @@ namespace TestFormatterUI
                 b_open.Enabled = false;
                 b_open.Visible = false;
 
-                l_qNumber.Text = "Question #1";
+                cb_question.Text = "Question #1";
                 return false;
             }
         }
