@@ -72,6 +72,9 @@
     <EmbeddedResource Include="TestFormatter.resx">
       <DependentUpon>TestFormatter.cs</DependentUpon>
     </EmbeddedResource>
+    <Content Include="Localization\ru.loca">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

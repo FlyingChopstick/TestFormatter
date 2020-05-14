@@ -25,6 +25,8 @@ namespace TestFormatterUI
         /// Topic output prefix
         /// </summary>
         private const string outputPrefix = "topic_";
+        private const string ruLocaPath = @".\Localization\ru.loca";
+
         /// <summary>
         /// Path to active file
         /// </summary>
@@ -39,44 +41,48 @@ namespace TestFormatterUI
 
         private Dictionary<string, int[]> TopicStats = new Dictionary<string, int[]>();
 
+        private Dictionary<Language, StringHolder> localizations = new Dictionary<Language, StringHolder>();
 
-        private StringHolder ruLoca = new StringHolder(
-                new LocalizationStrings()
-                { 
-                    L_topic = "Тема",
-                    L_subtopic = "Подтема",
-                    L_fileExistsY = "Файл существует: Да",
-                    L_fileExistsN = "Файл существует: Нет",
-                    L_statistics = "С момента последнего запуска:  №1: {0}   №2: {1}   №3: {2}   №4: {3}",
-
-                    B_openFile = "Открыть файл",
-                    B_generate = "Записать",
-
-                    GB_question = "Вопрос №{0}"
-                }
-            );
 
         private StringHolder cLoca = new StringHolder();
         private Language cLang;
 
         public TestFormatter()
         {
-            if (CultureInfo.CurrentUICulture.Name.Equals("ru-RU"))
-            //if (true)
-            {
-                cLoca = ruLoca;
-                cLang = Language.Russian;
-            }
-            else
-            {
-                cLoca = new StringHolder();
-                cLang = Language.English;
-            }
-
-
             Directory.CreateDirectory(outputFolder);
             InitializeComponent();
+
+
+            try
+            {
+                LoadLocalizations();
+
+                if (CultureInfo.CurrentUICulture.Name.Equals("ru-RU"))
+                {
+                    cLoca = localizations[Language.Russian];
+                    cLang = Language.Russian;
+                }
+                else
+                {
+                    cLoca = localizations[Language.English];
+                    cLang = Language.English;
+                }
+            }
+            catch (Exception)
+            {
+                b_lang.Enabled = false;
+                b_lang.Visible = false;
+                MessageBox.Show("Could not find the localization file", "Localization load failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             SetupNames();
+        }
+
+        private void LoadLocalizations()
+        {
+            string[] ruLoca = File.ReadAllLines(ruLocaPath);
+
+            localizations[Language.English] = new StringHolder();
+            localizations[Language.Russian] = new StringHolder(ruLoca);
         }
 
         private void SetupNames()
@@ -237,8 +243,6 @@ namespace TestFormatterUI
             //write
             File.AppendAllLines(activeFile, result);
 
-            //gb_header.Text = TopicStats[topic][1].ToString();
-
             statistics[0]++;
         }
         /// <summary>
@@ -273,12 +277,14 @@ namespace TestFormatterUI
             tb_subtopic.Enabled = unlocked;
             tb_subtopic.Visible = unlocked;
 
+            l_exists.Enabled= unlocked;
+            l_exists.Visible = unlocked;
+
             gb_question.Visible = unlocked;
             tb_question.Enabled = unlocked;
 
             tb_ans1.Enabled = unlocked;
             rb_ans1.Enabled = unlocked;
-            //rb_ans1.Checked = unlocked;
 
             tb_ans2.Enabled = unlocked;
             rb_ans2.Enabled = unlocked;
@@ -296,8 +302,6 @@ namespace TestFormatterUI
         /// </summary>
         private void ClearFields()
         {
-            //statistics = { 0, 0, 0, 0, 0 };
-
             tb_subtopic.Text = string.Empty;
             tb_question.Text = string.Empty;
             tb_ans1.Text = string.Empty;
@@ -317,11 +321,6 @@ namespace TestFormatterUI
                 ScanFile(topic);
                 FieldUnlock(true);
 
-                //l_qc1.Text = $"#1: {TopicStats[topic][1]}";
-                //l_qc2.Text = $"#2: {TopicStats[topic][2]}";
-                //l_qc3.Text = $"#3: {TopicStats[topic][3]}";
-                //l_qc4.Text = $"#4: {TopicStats[topic][4]}";
-
                 if (TopicStats.ContainsKey(topic))
                 {
                     l_statistics.Text = string.Format(
@@ -334,11 +333,6 @@ namespace TestFormatterUI
                 }
                 else
                 {
-                    //l_qc1.Text = "#1: 0";
-                    //l_qc2.Text = "#2: 0";
-                    //l_qc3.Text = "#3: 0";
-                    //l_qc4.Text = "#4: 0";
-
                     l_statistics.Text = string.Format(
                         cLoca.L_statistics,
                         0,
@@ -350,12 +344,10 @@ namespace TestFormatterUI
             }
             else
             {
-                //l_exists.Text = "File exists: No";
                 l_exists.Text = cLoca.L_fileExistsN;
                 b_open.Enabled = false;
                 b_open.Visible = false;
 
-                //gb_question.Text = "Question #--";
                 gb_question.Text = string.Format(cLoca.GB_question, "--");
 
                 FieldUnlock(false);
@@ -371,7 +363,6 @@ namespace TestFormatterUI
             if (File.Exists(activeFile))
             {
                 //unlock the "open file" button
-                //l_exists.Text = "File exists: Yes";
                 l_exists.Text = cLoca.L_fileExistsY;
                 b_open.Enabled = true;
                 b_open.Visible = true;
@@ -381,19 +372,16 @@ namespace TestFormatterUI
                 int qCount = len / 7 + 1;
                 QuestionTracking[topic] = qCount;
 
-                //gb_question.Text = $"Question #{QuestionTracking[topic].ToString()}";
                 gb_question.Text = string.Format(cLoca.GB_question, QuestionTracking[topic]);
                 return true;
             }
             else
             {
                 //lock the "open file" button
-                //l_exists.Text = "File exists: No";
                 l_exists.Text = cLoca.L_fileExistsN;
                 b_open.Enabled = false;
                 b_open.Visible = false;
 
-                //gb_question.Text = "Question #1";
                 gb_question.Text = string.Format(cLoca.GB_question, 1);
                 return false;
             }
@@ -405,13 +393,13 @@ namespace TestFormatterUI
             {
                 case Language.English:
                     {
-                        cLoca = ruLoca;
+                        cLoca = localizations[Language.Russian];
                         cLang = Language.Russian;
                         break;
                     }
                 case Language.Russian:
                     {
-                        cLoca = new StringHolder();
+                        cLoca = localizations[Language.English];
                         cLang = Language.English;
                         break;
                     }
@@ -427,7 +415,6 @@ namespace TestFormatterUI
                 {
                     Generate();
                     UpdateStats();
-                    //SelectionAssist();
 
                     tb_question.Clear();
                     tb_ans1.Clear();

@@ -49,6 +49,20 @@ namespace LocalizationLibrary
             GB_question = localizationStrings.GB_question;
         }
 
+        public StringHolder(string[] localizationStrings)
+        {
+            L_topic = localizationStrings[0];
+            L_subtopic = localizationStrings[1];
+            L_fileExistsY = localizationStrings[2];
+            L_fileExistsN = localizationStrings[3];
+            L_statistics = localizationStrings[4];
+
+            B_openFile = localizationStrings[5];
+            B_generate = localizationStrings[6];
+
+            GB_question = localizationStrings[7];
+        }
+
         #region Labels
         public string L_topic { get; private set; } = "Topic";
         public string L_subtopic { get; private set; } = "Subtopic";

@@ -35,6 +35,7 @@
             this.l_exists = new System.Windows.Forms.Label();
             this.b_open = new System.Windows.Forms.Button();
             this.gb_header = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tb_ans1 = new System.Windows.Forms.TextBox();
             this.tb_ans2 = new System.Windows.Forms.TextBox();
             this.tb_question = new System.Windows.Forms.TextBox();
@@ -47,11 +48,10 @@
             this.rb_ans4 = new System.Windows.Forms.RadioButton();
             this.l_statistics = new System.Windows.Forms.Label();
             this.gb_question = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.b_lang = new System.Windows.Forms.Button();
             this.gb_header.SuspendLayout();
-            this.gb_question.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.gb_question.SuspendLayout();
             this.SuspendLayout();
             // 
             // l_subtopic
@@ -97,6 +97,7 @@
             // l_exists
             // 
             this.l_exists.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.l_exists.Enabled = false;
             this.l_exists.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.l_exists.Location = new System.Drawing.Point(0, 0);
             this.l_exists.Name = "l_exists";
@@ -104,6 +105,7 @@
             this.l_exists.TabIndex = 19;
             this.l_exists.Text = "File exists: No";
             this.l_exists.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.l_exists.Visible = false;
             // 
             // b_open
             // 
@@ -122,6 +124,7 @@
             // 
             // gb_header
             // 
+            this.gb_header.Controls.Add(this.b_lang);
             this.gb_header.Controls.Add(this.panel1);
             this.gb_header.Controls.Add(this.tb_topic);
             this.gb_header.Controls.Add(this.l_topic);
@@ -133,6 +136,15 @@
             this.gb_header.Size = new System.Drawing.Size(784, 122);
             this.gb_header.TabIndex = 21;
             this.gb_header.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.b_open);
+            this.panel1.Controls.Add(this.l_exists);
+            this.panel1.Location = new System.Drawing.Point(545, 19);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(229, 57);
+            this.panel1.TabIndex = 21;
             // 
             // tb_ans1
             // 
@@ -245,7 +257,6 @@
             // 
             // gb_question
             // 
-            this.gb_question.Controls.Add(this.b_lang);
             this.gb_question.Controls.Add(this.l_statistics);
             this.gb_question.Controls.Add(this.rb_ans4);
             this.gb_question.Controls.Add(this.b_generate);
@@ -267,20 +278,11 @@
             this.gb_question.Text = "Question #--";
             this.gb_question.Visible = false;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.b_open);
-            this.panel1.Controls.Add(this.l_exists);
-            this.panel1.Location = new System.Drawing.Point(545, 19);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(229, 57);
-            this.panel1.TabIndex = 21;
-            // 
             // b_lang
             // 
-            this.b_lang.Location = new System.Drawing.Point(703, 224);
+            this.b_lang.Location = new System.Drawing.Point(59, 9);
             this.b_lang.Name = "b_lang";
-            this.b_lang.Size = new System.Drawing.Size(75, 32);
+            this.b_lang.Size = new System.Drawing.Size(37, 23);
             this.b_lang.TabIndex = 22;
             this.b_lang.Text = "lang";
             this.b_lang.UseVisualStyleBackColor = true;
@@ -299,10 +301,10 @@
             this.Click += new System.EventHandler(this.TestFormatter_Click);
             this.gb_header.ResumeLayout(false);
             this.gb_header.PerformLayout();
-            this.gb_question.ResumeLayout(false);
-            this.gb_question.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.gb_question.ResumeLayout(false);
+            this.gb_question.PerformLayout();
             this.ResumeLayout(false);
 
         }
