@@ -72,6 +72,9 @@
     <EmbeddedResource Include="TestFormatter.resx">
       <DependentUpon>TestFormatter.cs</DependentUpon>
     </EmbeddedResource>
+    <Content Include="Localization\ru.loca">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -85,6 +88,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LocalizationLibrary\LocalizationLibrary.csproj">
+      <Project>{BAC2BE96-E2F6-4D14-9DC8-722D834B3B34}</Project>
+      <Name>LocalizationLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
