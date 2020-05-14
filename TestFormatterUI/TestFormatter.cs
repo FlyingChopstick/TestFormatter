@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LocalizationLibrary;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,6 +11,12 @@ namespace TestFormatterUI
 
     public partial class TestFormatter : Form
     {
+        private enum Language
+        {
+            English = 0,
+            Russian = 1
+        }
+
         /// <summary>
         /// Topic output folder
         /// </summary>
@@ -31,10 +39,98 @@ namespace TestFormatterUI
 
         private Dictionary<string, int[]> TopicStats = new Dictionary<string, int[]>();
 
+
+        private StringHolder ruLoca = new StringHolder(
+                new LocalizationStrings()
+                { 
+                    L_topic = "Тема",
+                    L_subtopic = "Подтема",
+                    L_fileExistsY = "Файл существует: Да",
+                    L_fileExistsN = "Файл существует: Нет",
+                    L_statistics = "С момента последнего запуска:  №1: {0}   №2: {1}   №3: {2}   №4: {3}",
+
+                    B_openFile = "Открыть файл",
+                    B_generate = "Записать",
+
+                    GB_question = "Вопрос №{0}"
+                }
+            );
+
+        private StringHolder cLoca = new StringHolder();
+        private Language cLang;
+
         public TestFormatter()
         {
-                Directory.CreateDirectory(outputFolder);
-                InitializeComponent();
+            if (CultureInfo.CurrentUICulture.Name.Equals("ru-RU"))
+            //if (true)
+            {
+                cLoca = ruLoca;
+                cLang = Language.Russian;
+            }
+            else
+            {
+                cLoca = new StringHolder();
+                cLang = Language.English;
+            }
+
+
+            Directory.CreateDirectory(outputFolder);
+            InitializeComponent();
+            SetupNames();
+        }
+
+        private void SetupNames()
+        {
+            string topic = tb_topic.Text;
+
+            l_topic.Text = cLoca.L_topic;
+            l_subtopic.Text = cLoca.L_subtopic;
+            l_exists.Text = cLoca.L_fileExistsN;
+            l_statistics.Text = string.Format(cLoca.L_statistics, 0, 0, 0, 0);
+
+            b_open.Text = cLoca.B_openFile;
+            b_generate.Text = cLoca.B_generate;
+
+            gb_question.Text = string.Format(cLoca.GB_question, "--");
+        }
+        private void ReloadNames()
+        {
+            string topic = tb_topic.Text;
+            ScanFile(topic);
+
+            l_topic.Text = cLoca.L_topic;
+            l_subtopic.Text = cLoca.L_subtopic;
+            l_exists.Text = cLoca.L_fileExistsN;
+
+            if(TopicStats.ContainsKey(topic))
+            {
+                l_statistics.Text = string.Format(
+                        cLoca.L_statistics,
+                        TopicStats[topic][1],
+                        TopicStats[topic][2],
+                        TopicStats[topic][3],
+                        TopicStats[topic][4]
+                        );
+
+                //gb_question.Text = string.Format(cLoca.GB_question, QuestionTracking[topic]);
+            }
+            else
+            {
+                l_statistics.Text = string.Format(
+                        cLoca.L_statistics,
+                        0,
+                        0,
+                        0,
+                        0
+                        );
+
+                //gb_question.Text = string.Format(cLoca.GB_question, "1");
+            }
+
+
+            b_open.Text = cLoca.B_openFile;
+            b_generate.Text = cLoca.B_generate;
+
         }
 
         /// <summary>
@@ -177,7 +273,7 @@ namespace TestFormatterUI
             tb_subtopic.Enabled = unlocked;
             tb_subtopic.Visible = unlocked;
 
-            cb_question.Visible = unlocked;
+            gb_question.Visible = unlocked;
             tb_question.Enabled = unlocked;
 
             tb_ans1.Enabled = unlocked;
@@ -221,29 +317,46 @@ namespace TestFormatterUI
                 ScanFile(topic);
                 FieldUnlock(true);
 
+                //l_qc1.Text = $"#1: {TopicStats[topic][1]}";
+                //l_qc2.Text = $"#2: {TopicStats[topic][2]}";
+                //l_qc3.Text = $"#3: {TopicStats[topic][3]}";
+                //l_qc4.Text = $"#4: {TopicStats[topic][4]}";
+
                 if (TopicStats.ContainsKey(topic))
                 {
-                    gb_header.Text = "!";
-                    l_qc1.Text = $"#1: {TopicStats[topic][1]}";
-                    l_qc2.Text = $"#2: {TopicStats[topic][2]}";
-                    l_qc3.Text = $"#3: {TopicStats[topic][3]}";
-                    l_qc4.Text = $"#4: {TopicStats[topic][4]}";
+                    l_statistics.Text = string.Format(
+                        cLoca.L_statistics, 
+                        TopicStats[topic][1], 
+                        TopicStats[topic][2], 
+                        TopicStats[topic][3], 
+                        TopicStats[topic][4]
+                        );
                 }
                 else
                 {
-                    l_qc1.Text = "#1: 0";
-                    l_qc2.Text = "#2: 0";
-                    l_qc3.Text = "#3: 0";
-                    l_qc4.Text = "#4: 0";
+                    //l_qc1.Text = "#1: 0";
+                    //l_qc2.Text = "#2: 0";
+                    //l_qc3.Text = "#3: 0";
+                    //l_qc4.Text = "#4: 0";
+
+                    l_statistics.Text = string.Format(
+                        cLoca.L_statistics,
+                        0,
+                        0,
+                        0,
+                        0
+                        );
                 }
             }
             else
             {
-                l_exists.Text = "File exists: No";
+                //l_exists.Text = "File exists: No";
+                l_exists.Text = cLoca.L_fileExistsN;
                 b_open.Enabled = false;
                 b_open.Visible = false;
 
-                cb_question.Text = "Question #--";
+                //gb_question.Text = "Question #--";
+                gb_question.Text = string.Format(cLoca.GB_question, "--");
 
                 FieldUnlock(false);
             }        
@@ -258,7 +371,8 @@ namespace TestFormatterUI
             if (File.Exists(activeFile))
             {
                 //unlock the "open file" button
-                l_exists.Text = "File exists: Yes";
+                //l_exists.Text = "File exists: Yes";
+                l_exists.Text = cLoca.L_fileExistsY;
                 b_open.Enabled = true;
                 b_open.Visible = true;
 
@@ -267,57 +381,41 @@ namespace TestFormatterUI
                 int qCount = len / 7 + 1;
                 QuestionTracking[topic] = qCount;
 
-                cb_question.Text = $"Question #{QuestionTracking[topic].ToString()}";
+                //gb_question.Text = $"Question #{QuestionTracking[topic].ToString()}";
+                gb_question.Text = string.Format(cLoca.GB_question, QuestionTracking[topic]);
                 return true;
             }
             else
             {
                 //lock the "open file" button
-                l_exists.Text = "File exists: No";
+                //l_exists.Text = "File exists: No";
+                l_exists.Text = cLoca.L_fileExistsN;
                 b_open.Enabled = false;
                 b_open.Visible = false;
 
-                cb_question.Text = "Question #1";
+                //gb_question.Text = "Question #1";
+                gb_question.Text = string.Format(cLoca.GB_question, 1);
                 return false;
             }
         }
 
-        private void SelectionAssist()
+        private void SwitchLang()
         {
-            List<int> pool = new List<int>()
-            { 
-                statistics[1] / statistics[0], 
-                statistics[2] / statistics[0], 
-                statistics[3] / statistics[0], 
-                statistics[4] / statistics[0] 
-            };
-
-
-            int suggestion = pool.IndexOf(pool.Min());
-            switch (suggestion)
+            switch (cLang)
             {
-                case 0:
+                case Language.English:
                     {
-                        rb_ans1.Checked = true;
+                        cLoca = ruLoca;
+                        cLang = Language.Russian;
                         break;
                     }
-                case 1:
+                case Language.Russian:
                     {
-                        rb_ans2.Checked = true;
-                        break;
-                    }
-                case 2:
-                    {
-                        rb_ans3.Checked = true;
-                        break;
-                    }
-                case 3:
-                    {
-                        rb_ans4.Checked = true;
+                        cLoca = new StringHolder();
+                        cLang = Language.English;
                         break;
                     }
             }
-            l_qc1.Text = (suggestion+1).ToString();
         }
 
         //form controls
@@ -368,6 +466,11 @@ namespace TestFormatterUI
         private void TestFormatter_Click(object sender, EventArgs e)
         {
             UpdateStats();
+        }
+        private void b_lang_Click(object sender, EventArgs e)
+        {
+            SwitchLang();
+            ReloadNames();
         }
     }
 }
