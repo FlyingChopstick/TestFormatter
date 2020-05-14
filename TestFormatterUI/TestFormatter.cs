@@ -21,11 +21,12 @@ namespace TestFormatterUI
         /// Topic output folder
         /// </summary>
         private const string outputFolder = @".\Topics\";//@".\Topics\Output\";
+        private const string ruLocaFolder = @".\Localization\";
         /// <summary>
         /// Topic output prefix
         /// </summary>
         private const string outputPrefix = "topic_";
-        private const string ruLocaPath = @".\Localization\ru.loca";
+        private string ruLocaFile = "ru.loca";
 
         /// <summary>
         /// Path to active file
@@ -51,7 +52,6 @@ namespace TestFormatterUI
         {
             Directory.CreateDirectory(outputFolder);
             InitializeComponent();
-
 
             try
             {
@@ -79,7 +79,7 @@ namespace TestFormatterUI
 
         private void LoadLocalizations()
         {
-            string[] ruLoca = File.ReadAllLines(ruLocaPath);
+            string[] ruLoca = File.ReadAllLines($"{ruLocaFolder}{ruLocaFile}");
 
             localizations[Language.English] = new StringHolder();
             localizations[Language.Russian] = new StringHolder(ruLoca);
