@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LocalizationLibrary
+﻿namespace LocalizationLibrary
 {
     /// <summary>
     /// Pack of localization strings
@@ -23,6 +17,7 @@ namespace LocalizationLibrary
 
     public class StringHolder
     {
+        #region Constructors
         /// <summary>
         /// Loads default localization (English)
         /// </summary>
@@ -62,6 +57,7 @@ namespace LocalizationLibrary
 
             GB_question = localizationStrings[7];
         }
+        #endregion
 
         #region Labels
         public string L_topic { get; private set; } = "Topic";
