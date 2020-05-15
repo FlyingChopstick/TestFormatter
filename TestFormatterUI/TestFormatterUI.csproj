@@ -65,11 +65,12 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="TestFormatter.resx">
       <DependentUpon>TestFormatter.cs</DependentUpon>
     </EmbeddedResource>
-    <Content Include="Localization\ru.loca">
+    <Content Include="Localization\Russian.loca">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\Settings.settings">

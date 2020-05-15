@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace TestFormatterUI
@@ -21,12 +20,15 @@ namespace TestFormatterUI
         /// Topic output folder
         /// </summary>
         private const string outputFolder = @".\Topics\";//@".\Topics\Output\";
-        private const string ruLocaFolder = @".\Localization\";
         /// <summary>
         /// Topic output prefix
         /// </summary>
         private const string outputPrefix = "topic_";
-        private string ruLocaFile = "ru.loca";
+
+        private const string locaFolder = @".\Localization\";
+        private const string locaExtension = ".loca";
+
+        private const string ruLang = "Russian";
 
         /// <summary>
         /// Path to active file
@@ -79,7 +81,8 @@ namespace TestFormatterUI
 
         private void LoadLocalizations()
         {
-            string[] ruLoca = File.ReadAllLines($"{ruLocaFolder}{ruLocaFile}");
+            string[] ruLoca = File.ReadAllLines($"{locaFolder}{ruLang}{locaExtension}");
+
 
             localizations[Language.English] = new StringHolder();
             localizations[Language.Russian] = new StringHolder(ruLoca);
@@ -108,7 +111,7 @@ namespace TestFormatterUI
             l_subtopic.Text = cLoca.L_subtopic;
             l_exists.Text = cLoca.L_fileExistsN;
 
-            if(TopicStats.ContainsKey(topic))
+            if (TopicStats.ContainsKey(topic))
             {
                 l_statistics.Text = string.Format(
                         cLoca.L_statistics,
@@ -238,7 +241,7 @@ namespace TestFormatterUI
             }
 
             //compile
-            string[] result = { subtopic, question, ans1, ans2, ans3, ans4, "" }; 
+            string[] result = { subtopic, question, ans1, ans2, ans3, ans4, "" };
 
             //write
             File.AppendAllLines(activeFile, result);
@@ -277,7 +280,7 @@ namespace TestFormatterUI
             tb_subtopic.Enabled = unlocked;
             tb_subtopic.Visible = unlocked;
 
-            l_exists.Enabled= unlocked;
+            l_exists.Enabled = unlocked;
             l_exists.Visible = unlocked;
 
             gb_question.Visible = unlocked;
@@ -324,10 +327,10 @@ namespace TestFormatterUI
                 if (TopicStats.ContainsKey(topic))
                 {
                     l_statistics.Text = string.Format(
-                        cLoca.L_statistics, 
-                        TopicStats[topic][1], 
-                        TopicStats[topic][2], 
-                        TopicStats[topic][3], 
+                        cLoca.L_statistics,
+                        TopicStats[topic][1],
+                        TopicStats[topic][2],
+                        TopicStats[topic][3],
                         TopicStats[topic][4]
                         );
                 }
@@ -351,7 +354,7 @@ namespace TestFormatterUI
                 gb_question.Text = string.Format(cLoca.GB_question, "--");
 
                 FieldUnlock(false);
-            }        
+            }
         }
         /// <summary>
         /// Determines the existence and amount of question in the file
