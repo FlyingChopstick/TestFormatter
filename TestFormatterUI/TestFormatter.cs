@@ -1,7 +1,5 @@
-﻿using LocalizationLibrary;
+﻿using FormatterController;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
@@ -10,243 +8,127 @@ namespace TestFormatterUI
 
     public partial class TestFormatter : Form
     {
-        private enum Language
-        {
-            English = 0,
-            Russian = 1
-        }
-
-        /// <summary>
-        /// Topic output folder
-        /// </summary>
-        private const string outputFolder = @".\Topics\";//@".\Topics\Output\";
-        /// <summary>
-        /// Topic output prefix
-        /// </summary>
-        private const string outputPrefix = "topic_";
-
-        private const string locaFolder = @".\Localization\";
-        private const string locaExtension = ".loca";
-
-        private const string ruLang = "Russian";
-
-        /// <summary>
-        /// Path to active file
-        /// </summary>
-        private string activeFile;
-
-        /// <summary>
-        /// Tracks question count across different topics
-        /// </summary>
-        private Dictionary<string, int> QuestionTracking = new Dictionary<string, int>();
-
-        private int[] statistics = { 0, 0, 0, 0, 0 };
-
-        private Dictionary<string, int[]> TopicStats = new Dictionary<string, int[]>();
-
-        private Dictionary<Language, StringHolder> localizations = new Dictionary<Language, StringHolder>();
-
-
-        private StringHolder cLoca = new StringHolder();
-        private Language cLang;
-
         public TestFormatter()
         {
-            Directory.CreateDirectory(outputFolder);
             InitializeComponent();
 
-            try
-            {
-                LoadLocalizations();
-
-                if (CultureInfo.CurrentUICulture.Name.Equals("ru-RU"))
-                {
-                    cLoca = localizations[Language.Russian];
-                    cLang = Language.Russian;
-                }
-                else
-                {
-                    cLoca = localizations[Language.English];
-                    cLang = Language.English;
-                }
-            }
-            catch (Exception)
-            {
-                b_lang.Enabled = false;
-                b_lang.Visible = false;
-                MessageBox.Show("Could not find the localization file", "Localization load failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            SetupNames();
+            Controller.Setup();
+            ReloadNames();
         }
 
-        private void LoadLocalizations()
-        {
-            string[] ruLoca = File.ReadAllLines($"{locaFolder}{ruLang}{locaExtension}");
-
-
-            localizations[Language.English] = new StringHolder();
-            localizations[Language.Russian] = new StringHolder(ruLoca);
-        }
-
-        private void SetupNames()
-        {
-            string topic = tb_topic.Text;
-
-            l_topic.Text = cLoca.L_topic;
-            l_subtopic.Text = cLoca.L_subtopic;
-            l_exists.Text = cLoca.L_fileExistsN;
-            l_statistics.Text = string.Format(cLoca.L_statistics, 0, 0, 0, 0);
-
-            b_open.Text = cLoca.B_openFile;
-            b_generate.Text = cLoca.B_generate;
-
-            gb_question.Text = string.Format(cLoca.GB_question, "--");
-        }
-        private void ReloadNames()
-        {
-            string topic = tb_topic.Text;
-            ScanFile(topic);
-
-            l_topic.Text = cLoca.L_topic;
-            l_subtopic.Text = cLoca.L_subtopic;
-            l_exists.Text = cLoca.L_fileExistsN;
-
-            if (TopicStats.ContainsKey(topic))
-            {
-                l_statistics.Text = string.Format(
-                        cLoca.L_statistics,
-                        TopicStats[topic][1],
-                        TopicStats[topic][2],
-                        TopicStats[topic][3],
-                        TopicStats[topic][4]
-                        );
-
-                //gb_question.Text = string.Format(cLoca.GB_question, QuestionTracking[topic]);
-            }
-            else
-            {
-                l_statistics.Text = string.Format(
-                        cLoca.L_statistics,
-                        0,
-                        0,
-                        0,
-                        0
-                        );
-
-                //gb_question.Text = string.Format(cLoca.GB_question, "1");
-            }
-
-
-            b_open.Text = cLoca.B_openFile;
-            b_generate.Text = cLoca.B_generate;
-
-        }
 
         /// <summary>
         /// Generates a question
         /// </summary>
         private void Generate()
         {
+            Question newQuestion;
+
             //formatting
-            string topic = tb_topic.Text;
-            string subtopic = $"I: {tb_subtopic.Text}; mt=0,1";
-            string question = $"S: {tb_question.Text}:";
-            string ans1, ans2, ans3, ans4;
+            newQuestion.Filename = tb_topic.Text;
+            newQuestion.Theme = tb_subtopic.Text;//$"I: {tb_subtopic.Text}; mt=0,1";
+            newQuestion.QuestionText = tb_question.Text;//$"S: {tb_question.Text}:";
+            //string ans1, ans2, ans3, ans4;
 
             if (rb_ans1.Checked)
             {
                 //ans1 correct
-                statistics[1]++;
-                ans1 = $"+: {tb_ans1.Text}";
-                ans2 = $"-: {tb_ans2.Text}";
-                ans3 = $"-: {tb_ans3.Text}";
-                ans4 = $"-: {tb_ans4.Text}";
+                //statistics[1]++;
+                newQuestion.Correct = QNum.First;
+                newQuestion.ans1 = tb_ans1.Text;//$"+: {tb_ans1.Text}";
+                newQuestion.ans2 = tb_ans2.Text;//$"-: {tb_ans2.Text}";
+                newQuestion.ans3 = tb_ans3.Text;//$"-: {tb_ans3.Text}";
+                newQuestion.ans4 = tb_ans4.Text;//$"-: {tb_ans4.Text}";
 
                 //staticstics
-                if (TopicStats.ContainsKey(topic))
-                {
-                    TopicStats[topic][0]++;
-                    TopicStats[topic][1]++;
-                }
-                else
-                {
-                    TopicStats[topic] = new int[] { 1, 1, 0, 0, 0 };
-                }
+                //if (TopicStats.ContainsKey(topic))
+                //{
+                //    TopicStats[topic][0]++;
+                //    TopicStats[topic][1]++;
+                //}
+                //else
+                //{
+                //    TopicStats[topic] = new int[] { 1, 1, 0, 0, 0 };
+                //}
             }
             else
             {
                 if (rb_ans2.Checked)
                 {
                     //ans2 correct
-                    statistics[2]++;
-                    ans1 = $"-: {tb_ans1.Text}";
-                    ans2 = $"+: {tb_ans2.Text}";
-                    ans3 = $"-: {tb_ans3.Text}";
-                    ans4 = $"-: {tb_ans4.Text}";
+                    //statistics[2]++;
+                    newQuestion.Correct = QNum.Second;
+                    newQuestion.ans1 = tb_ans1.Text;//$"-: {tb_ans1.Text}";
+                    newQuestion.ans2 = tb_ans2.Text;//$"+: {tb_ans2.Text}";
+                    newQuestion.ans3 = tb_ans3.Text;//$"-: {tb_ans3.Text}";
+                    newQuestion.ans4 = tb_ans4.Text;//$"-: {tb_ans4.Text}";
 
                     //staticstics
-                    if (TopicStats.ContainsKey(topic))
-                    {
-                        TopicStats[topic][0]++;
-                        TopicStats[topic][2]++;
-                    }
-                    else
-                    {
-                        TopicStats[topic] = new int[] { 1, 0, 1, 0, 0 };
-                    }
+                    //if (TopicStats.ContainsKey(topic))
+                    //{
+                    //    TopicStats[topic][0]++;
+                    //    TopicStats[topic][2]++;
+                    //}
+                    //else
+                    //{
+                    //    TopicStats[topic] = new int[] { 1, 0, 1, 0, 0 };
+                    //}
                 }
                 else
                 {
                     if (rb_ans3.Checked)
                     {
                         //ans3 correct
-                        statistics[3]++;
-                        ans1 = $"-: {tb_ans1.Text}";
-                        ans2 = $"-: {tb_ans2.Text}";
-                        ans3 = $"+: {tb_ans3.Text}";
-                        ans4 = $"-: {tb_ans4.Text}";
+                        //statistics[3]++;
+                        newQuestion.Correct = QNum.Third;
+                        newQuestion.ans1 = tb_ans1.Text;//$"-: {tb_ans1.Text}";
+                        newQuestion.ans2 = tb_ans2.Text;//$"-: {tb_ans2.Text}";
+                        newQuestion.ans3 = tb_ans3.Text;//$"+: {tb_ans3.Text}";
+                        newQuestion.ans4 = tb_ans4.Text;//$"-: {tb_ans4.Text}";
 
                         //staticstics
-                        if (TopicStats.ContainsKey(topic))
-                        {
-                            TopicStats[topic][0]++;
-                            TopicStats[topic][3]++;
-                        }
-                        else
-                        {
-                            TopicStats[topic] = new int[] { 1, 0, 0, 1, 0 };
-                        }
+                        //if (TopicStats.ContainsKey(topic))
+                        //{
+                        //    TopicStats[topic][0]++;
+                        //    TopicStats[topic][3]++;
+                        //}
+                        //else
+                        //{
+                        //    TopicStats[topic] = new int[] { 1, 0, 0, 1, 0 };
+                        //}
                     }
                     else
                     {
-                        //ans4 correct
-                        statistics[4]++;
-                        ans1 = $"-: {tb_ans1.Text}";
-                        ans2 = $"-: {tb_ans2.Text}";
-                        ans3 = $"-: {tb_ans3.Text}";
-                        ans4 = $"+: {tb_ans4.Text}";
+                        //newQuestion.ans4 correct
+                        //statistics[4]++;
+                        newQuestion.Correct = QNum.Fourth;
+                        newQuestion.ans1 = tb_ans1.Text;//$"-: {tb_ans1.Text}";
+                        newQuestion.ans2 = tb_ans2.Text;//$"-: {tb_ans2.Text}";
+                        newQuestion.ans3 = tb_ans3.Text;//$"-: {tb_ans3.Text}";
+                        newQuestion.ans4 = tb_ans4.Text;//$"+: {tb_ans4.Text}";
 
                         //staticstics
-                        if (TopicStats.ContainsKey(topic))
-                        {
-                            TopicStats[topic][0]++;
-                            TopicStats[topic][4]++;
-                        }
-                        else
-                        {
-                            TopicStats[topic] = new int[] { 1, 0, 0, 0, 1 };
-                        }
+                        //if (TopicStats.ContainsKey(topic))
+                        //{
+                        //    TopicStats[topic][0]++;
+                        //    TopicStats[topic][4]++;
+                        //}
+                        //else
+                        //{
+                        //    TopicStats[topic] = new int[] { 1, 0, 0, 0, 1 };
+                        //}
                     }
                 }
             }
 
             //compile
-            string[] result = { subtopic, question, ans1, ans2, ans3, ans4, "" };
+            //string[] result = { subtopic, question, ans1, ans2, ans3, ans4, "" };
 
             //write
-            File.AppendAllLines(activeFile, result);
+            //File.AppendAllLines(activeFile, result);
 
-            statistics[0]++;
+            //statistics[0]++;
+            Controller.Write(newQuestion);
         }
         /// <summary>
         /// Checks that input fields are filled
@@ -276,7 +158,7 @@ namespace TestFormatterUI
         /// <param name="unlocked">Should the fields be unlocked</param>
         private void FieldUnlock(bool unlocked)
         {
-            l_subtopic.Visible = unlocked;
+            l_qTopic.Visible = unlocked;
             tb_subtopic.Enabled = unlocked;
             tb_subtopic.Visible = unlocked;
 
@@ -320,38 +202,22 @@ namespace TestFormatterUI
             string topic = tb_topic.Text;
             if (topic.Length != 0)
             {
-                activeFile = $"{outputFolder}{outputPrefix}{tb_topic.Text}.txt";
-                ScanFile(topic);
+                Controller.SetActiveFile(topic);
+                if (Controller.ScanFile(topic))
+                {
+                    FileButtonLock(topic);
+                }
                 FieldUnlock(true);
-
-                if (TopicStats.ContainsKey(topic))
-                {
-                    l_statistics.Text = string.Format(
-                        cLoca.L_statistics,
-                        TopicStats[topic][1],
-                        TopicStats[topic][2],
-                        TopicStats[topic][3],
-                        TopicStats[topic][4]
-                        );
-                }
-                else
-                {
-                    l_statistics.Text = string.Format(
-                        cLoca.L_statistics,
-                        0,
-                        0,
-                        0,
-                        0
-                        );
-                }
+                l_statistics.Text = Controller.FormatStats(topic);
+                gb_question.Text = Controller.GetQuestionNumber(topic);
             }
             else
             {
-                l_exists.Text = cLoca.L_fileExistsN;
+                l_exists.Text = Controller.CLoca.L_fileExistsN;
                 b_open.Enabled = false;
                 b_open.Visible = false;
 
-                gb_question.Text = string.Format(cLoca.GB_question, "--");
+                gb_question.Text = string.Format(Controller.CLoca.GB_question, "--");
 
                 FieldUnlock(false);
             }
@@ -361,55 +227,26 @@ namespace TestFormatterUI
         /// </summary>
         /// <param name="topic">Query topic</param>
         /// <returns><see langword="true"/>if file exists, <see langword="false"/>if not</returns>
-        private bool ScanFile(string topic)
+        private void FileButtonLock(string topic)
         {
-            if (File.Exists(activeFile))
+            if (Controller.ScanFile(topic))
             {
                 //unlock the "open file" button
-                l_exists.Text = cLoca.L_fileExistsY;
+                l_exists.Text = Controller.CLoca.L_fileExistsY;
                 b_open.Enabled = true;
                 b_open.Visible = true;
-
-                //count question in file, assuming each is 7 lines long
-                int len = File.ReadAllLines(activeFile).Length;
-                int qCount = len / 7 + 1;
-                QuestionTracking[topic] = qCount;
-
-                gb_question.Text = string.Format(cLoca.GB_question, QuestionTracking[topic]);
-                return true;
             }
             else
             {
                 //lock the "open file" button
-                l_exists.Text = cLoca.L_fileExistsN;
+                l_exists.Text = Controller.CLoca.L_fileExistsN;
                 b_open.Enabled = false;
                 b_open.Visible = false;
-
-                gb_question.Text = string.Format(cLoca.GB_question, 1);
-                return false;
             }
         }
 
-        private void SwitchLang()
-        {
-            switch (cLang)
-            {
-                case Language.English:
-                    {
-                        cLoca = localizations[Language.Russian];
-                        cLang = Language.Russian;
-                        break;
-                    }
-                case Language.Russian:
-                    {
-                        cLoca = localizations[Language.English];
-                        cLang = Language.English;
-                        break;
-                    }
-            }
-        }
 
-        //form controls
+        #region Form Controls
         private void b_generate_Click(object sender, EventArgs e)
         {
             if (tb_topic.Text.Length != 0)
@@ -444,7 +281,7 @@ namespace TestFormatterUI
         {
             try
             {
-                System.Diagnostics.Process.Start(activeFile);
+                Controller.OpenActiveFile();
             }
             catch (FileNotFoundException)
             {
@@ -462,5 +299,46 @@ namespace TestFormatterUI
             SwitchLang();
             ReloadNames();
         }
+        #endregion
+
+        #region Language
+        /// <summary>
+        /// Reloads localization
+        /// </summary>
+        private void ReloadNames()
+        {
+            string topic = tb_topic.Text;
+            FileButtonLock(topic);
+
+            l_filename.Text = Controller.CLoca.L_filename;
+            l_qTopic.Text = Controller.CLoca.L_qTopic;
+            l_exists.Text = Controller.CLoca.L_fileExistsN;
+
+            b_open.Text = Controller.CLoca.B_openFile;
+            b_generate.Text = Controller.CLoca.B_generate;
+
+            UpdateStats();
+        }
+        private void SwitchLang()
+        {
+            switch (Controller.CLang)
+            {
+                case "English":
+                    {
+                        Controller.SetLocalization("Russian");
+                        break;
+                    }
+                case "Russian":
+                    {
+                        Controller.SetLocalization("English");
+                        break;
+                    }
+                default:
+                    {
+                        throw new NotImplementedException("Language not recognized");
+                    }
+            }
+        }
+        #endregion
     }
 }

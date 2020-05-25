@@ -4,10 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFormatterUI", "TestFormatterUI.csproj", "{4884EE41-16FB-4815-AC12-7B136394FCC0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{978351AB-8092-4DC7-83E7-782BD18E5877} = {978351AB-8092-4DC7-83E7-782BD18E5877}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationLibrary", "..\LocalizationLibrary\LocalizationLibrary.csproj", "{BAC2BE96-E2F6-4D14-9DC8-722D834B3B34}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TestFormatter", "..\TestFormatter\TestFormatter.vdproj", "{05192A67-D31D-49FA-A919-A425AB79D3BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormatterController", "..\FormatterController\FormatterController.csproj", "{978351AB-8092-4DC7-83E7-782BD18E5877}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +30,10 @@ Global
 		{BAC2BE96-E2F6-4D14-9DC8-722D834B3B34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{05192A67-D31D-49FA-A919-A425AB79D3BE}.Debug|Any CPU.ActiveCfg = Debug
 		{05192A67-D31D-49FA-A919-A425AB79D3BE}.Release|Any CPU.ActiveCfg = Release
+		{978351AB-8092-4DC7-83E7-782BD18E5877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{978351AB-8092-4DC7-83E7-782BD18E5877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{978351AB-8092-4DC7-83E7-782BD18E5877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{978351AB-8092-4DC7-83E7-782BD18E5877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
