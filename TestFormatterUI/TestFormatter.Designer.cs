@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.l_subtopic = new System.Windows.Forms.Label();
+            this.l_qTopic = new System.Windows.Forms.Label();
             this.tb_topic = new System.Windows.Forms.TextBox();
-            this.l_topic = new System.Windows.Forms.Label();
+            this.l_filename = new System.Windows.Forms.Label();
             this.tb_subtopic = new System.Windows.Forms.TextBox();
             this.l_exists = new System.Windows.Forms.Label();
             this.b_open = new System.Windows.Forms.Button();
             this.gb_header = new System.Windows.Forms.GroupBox();
+            this.b_lang = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tb_ans1 = new System.Windows.Forms.TextBox();
             this.tb_ans2 = new System.Windows.Forms.TextBox();
@@ -48,22 +49,21 @@
             this.rb_ans4 = new System.Windows.Forms.RadioButton();
             this.l_statistics = new System.Windows.Forms.Label();
             this.gb_question = new System.Windows.Forms.GroupBox();
-            this.b_lang = new System.Windows.Forms.Button();
             this.gb_header.SuspendLayout();
             this.panel1.SuspendLayout();
             this.gb_question.SuspendLayout();
             this.SuspendLayout();
             // 
-            // l_subtopic
+            // l_qTopic
             // 
-            this.l_subtopic.AutoSize = true;
-            this.l_subtopic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.l_subtopic.Location = new System.Drawing.Point(6, 62);
-            this.l_subtopic.Name = "l_subtopic";
-            this.l_subtopic.Size = new System.Drawing.Size(72, 20);
-            this.l_subtopic.TabIndex = 10;
-            this.l_subtopic.Text = "Subtopic";
-            this.l_subtopic.Visible = false;
+            this.l_qTopic.AutoSize = true;
+            this.l_qTopic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.l_qTopic.Location = new System.Drawing.Point(6, 62);
+            this.l_qTopic.Name = "l_qTopic";
+            this.l_qTopic.Size = new System.Drawing.Size(47, 20);
+            this.l_qTopic.TabIndex = 10;
+            this.l_qTopic.Text = "Topic";
+            this.l_qTopic.Visible = false;
             // 
             // tb_topic
             // 
@@ -74,15 +74,15 @@
             this.tb_topic.TabIndex = 0;
             this.tb_topic.TextChanged += new System.EventHandler(this.tb_topic_TextChanged);
             // 
-            // l_topic
+            // l_filename
             // 
-            this.l_topic.AutoSize = true;
-            this.l_topic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.l_topic.Location = new System.Drawing.Point(6, 9);
-            this.l_topic.Name = "l_topic";
-            this.l_topic.Size = new System.Drawing.Size(47, 20);
-            this.l_topic.TabIndex = 15;
-            this.l_topic.Text = "Topic";
+            this.l_filename.AutoSize = true;
+            this.l_filename.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.l_filename.Location = new System.Drawing.Point(6, 9);
+            this.l_filename.Name = "l_filename";
+            this.l_filename.Size = new System.Drawing.Size(78, 20);
+            this.l_filename.TabIndex = 15;
+            this.l_filename.Text = "File name";
             // 
             // tb_subtopic
             // 
@@ -127,8 +127,8 @@
             this.gb_header.Controls.Add(this.b_lang);
             this.gb_header.Controls.Add(this.panel1);
             this.gb_header.Controls.Add(this.tb_topic);
-            this.gb_header.Controls.Add(this.l_topic);
-            this.gb_header.Controls.Add(this.l_subtopic);
+            this.gb_header.Controls.Add(this.l_filename);
+            this.gb_header.Controls.Add(this.l_qTopic);
             this.gb_header.Controls.Add(this.tb_subtopic);
             this.gb_header.Dock = System.Windows.Forms.DockStyle.Top;
             this.gb_header.Location = new System.Drawing.Point(0, 0);
@@ -136,6 +136,16 @@
             this.gb_header.Size = new System.Drawing.Size(784, 122);
             this.gb_header.TabIndex = 21;
             this.gb_header.TabStop = false;
+            // 
+            // b_lang
+            // 
+            this.b_lang.Location = new System.Drawing.Point(116, 9);
+            this.b_lang.Name = "b_lang";
+            this.b_lang.Size = new System.Drawing.Size(37, 23);
+            this.b_lang.TabIndex = 22;
+            this.b_lang.Text = "lang";
+            this.b_lang.UseVisualStyleBackColor = true;
+            this.b_lang.Click += new System.EventHandler(this.b_lang_Click);
             // 
             // panel1
             // 
@@ -278,16 +288,6 @@
             this.gb_question.Text = "Question #--";
             this.gb_question.Visible = false;
             // 
-            // b_lang
-            // 
-            this.b_lang.Location = new System.Drawing.Point(59, 9);
-            this.b_lang.Name = "b_lang";
-            this.b_lang.Size = new System.Drawing.Size(37, 23);
-            this.b_lang.TabIndex = 22;
-            this.b_lang.Text = "lang";
-            this.b_lang.UseVisualStyleBackColor = true;
-            this.b_lang.Click += new System.EventHandler(this.b_lang_Click);
-            // 
             // TestFormatter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -310,9 +310,9 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label l_subtopic;
+        private System.Windows.Forms.Label l_qTopic;
         private System.Windows.Forms.TextBox tb_topic;
-        private System.Windows.Forms.Label l_topic;
+        private System.Windows.Forms.Label l_filename;
         private System.Windows.Forms.TextBox tb_subtopic;
         private System.Windows.Forms.Label l_exists;
         private System.Windows.Forms.Button b_open;

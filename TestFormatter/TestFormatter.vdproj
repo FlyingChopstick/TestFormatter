@@ -80,6 +80,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -284,18 +292,18 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TestFormatter"
         "ProductCode" = "8:{0CF56C32-599D-499D-A850-BABB3EACB694}"
-        "PackageCode" = "8:{B7354497-39B8-42A2-B578-929B125DDFB5}"
+        "PackageCode" = "8:{E0308D85-6496-49E3-B20F-10CA6A47DB66}"
         "UpgradeCode" = "8:{8CE83DA7-27AF-47EF-93F9-CDBA776571FD}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:TRUE"
+        "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:DieNdiE"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:TestFormatter"
+        "Title" = "8:TestFormatter Setup"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Alexander Yakimov"
         "Keywords" = "8:"
