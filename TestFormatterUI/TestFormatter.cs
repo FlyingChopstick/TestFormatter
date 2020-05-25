@@ -226,7 +226,7 @@ namespace TestFormatterUI
         /// Determines the existence and amount of question in the file
         /// </summary>
         /// <param name="topic">Query topic</param>
-        /// <returns><see langword="true"/>if file exists, <see langword="false"/>if not</returns>
+        /// <returns><see langword="true"/> if file exists, <see langword="false"/> if not</returns>
         private void FileButtonLock(string topic)
         {
             if (Controller.ScanFile(topic))
